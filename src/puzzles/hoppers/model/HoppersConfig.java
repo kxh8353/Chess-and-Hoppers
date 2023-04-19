@@ -9,6 +9,7 @@ import java.util.Collection;
 
 public class HoppersConfig implements Configuration{
     public HoppersConfig(String filename) throws IOException {
+        this.filename = filename;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package puzzles.clock;
 
+import puzzles.common.solver.Configuration;
 import puzzles.common.solver.Solver;
 import puzzles.hoppers.model.HoppersConfig;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 
 public class Clock {
 
-    public static HoppersConfig configs;
+    public static ClockConfig configs;
     public static void main(String[] args) throws IOException {
         if (args.length < 2) {
             System.out.println(("Usage: java Clock hours stop end"));
@@ -17,18 +18,19 @@ public class Clock {
             int hours = Integer.parseInt(args[0]);
             int starthour = Integer.parseInt(args[1]);
             int endhour = Integer.parseInt(args[2]);
-            System.out.println("Hours + " + hours  + ", " + "Start: " + starthour + ", " + "End: " + endhour);
+            System.out.println("Hours + " + hours + ", " + "Start: " + starthour + ", " + "End: " + endhour);
 
-            HoppersConfig config = new HoppersConfig(hours, starthour, endhour);
-            ArrayList<HoppersConfig> solved = new HoppersConfig(hours, starthour, endhour);
+            ClockConfig config = new ClockConfig(hours, starthour, endhour);
+            ArrayList<Configuration> solved = (ArrayList<Configuration>) Solver.getShortestPath(config);
             System.out.println("Total Configs: " + Solver.totalconfigs);
             System.out.println("Unique Configs: " + Solver.uniqueconfigs);
-            if (!solved.isEmpty()){
-                for (int i = 0; i<solved.size(); i++){
+            if (!solved.isEmpty()) {
+                for (int i = 0; i < solved.size(); i++) {
                     System.out.println("step " + i + ": " + solved.get(i));
                 }
-            }else{
+            } else {
                 System.out.println("No solution");
+            }
         }
     }
 }

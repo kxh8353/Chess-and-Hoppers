@@ -1,14 +1,11 @@
 package puzzles.strings;
-
 import puzzles.common.solver.Configuration;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-
-public class StringsConfig {
-
+/** Project 2 part 1 - StringsConfig
+ * Author: Kevin Huang
+ */
+public class StringsConfig implements Configuration {
     public String startstring;
     public String endstring;
 
@@ -23,7 +20,6 @@ public class StringsConfig {
      */
     @Override
     public boolean isSolution() {
-
         return startstring.equals(endstring);
     }
 

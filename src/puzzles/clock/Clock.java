@@ -14,11 +14,11 @@ public class Clock {
         if (args.length < 2) {
             System.out.println(("Usage: java Clock hours stop end"));
         } else {
-            // TODO
+            // DONE
             int hours = Integer.parseInt(args[0]);
             int starthour = Integer.parseInt(args[1]);
             int endhour = Integer.parseInt(args[2]);
-            System.out.println("Hours + " + hours + ", " + "Start: " + starthour + ", " + "End: " + endhour);
+            System.out.println("Hours " + hours + ", " + "Start: " + starthour + ", " + "End: " + endhour);
 
             ClockConfig config = new ClockConfig(hours, starthour, endhour);
             ArrayList<Configuration> solved = (ArrayList<Configuration>) Solver.getShortestPath(config);

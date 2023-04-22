@@ -7,4 +7,5 @@ public class Hoppers {
             System.out.println("Usage: java Hoppers filename");
         }
     }
+
 }

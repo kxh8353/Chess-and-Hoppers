@@ -3,6 +3,8 @@ package puzzles.strings;
 
 import puzzles.common.solver.Configuration;
 import puzzles.common.solver.Solver;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 /** Project 2 part 1 - Strings
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 public class Strings {
 
     public static StringsConfig configs;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         if (args.length < 2) {
             System.out.println(("Usage: java Strings start finish"));
             return;

@@ -1,73 +1,66 @@
 package puzzles.hoppers.model;
 
-import javafx.application.Application;
-import puzzles.common.Observer;
+import puzzles.common.Coordinates;
 import puzzles.common.solver.Configuration;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputFilter;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Collection;
-import puzzles.hoppers.gui.HoppersGUI;
 
 // TODO: implement your HoppersConfig for the common solver
 
 public class HoppersConfig implements Configuration{
-    private int thisrow;
-    private int thiscol;
-    private int[] row;
-    private int[] col;
-    private int curseRow;
-    private int curseCol;
+    private int numberOfRow;
+    private int numberOfCol;
     private String[][] grid;
+
+
+
+
     public HoppersConfig(String filename) throws IOException {
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
             String line = in.readLine();
-            String[] firstField = line.split("\\s+");
-            row = new int[thisrow];
-            col = new int[thiscol];
-            curseRow = 0;
-            curseCol = -1;
-            for (int rowan = 0; rowan < thisrow; rowan++) {
-                row[rowan] = Integer.parseInt(firstField[rowan]);
-            }
-            line = in.readLine();
-            String[] secondFields = line.split("\\s+"); // colums - left to right
-            for (int g = 0; g < secondFields.length; g++) {
-                col[g] = Integer.parseInt(secondFields[g]);
-            }
-            grid = new String[thisrow][thiscol];
-            for (int i = 0; i < thiscol && i< thisrow; i++) {
+            String[] fields = line.split("\\s+");
+            numberOfRow = Integer.parseInt(fields[0]);
+            numberOfCol = Integer.parseInt(fields[1]);
+            grid = new String[numberOfRow][numberOfCol];
+            for (int i = 0; i < numberOfRow && i< numberOfCol; i++) {
                 line = in.readLine();
                 String[] dimensionFields = line.split("\\s+");
                 grid[i] = dimensionFields;
             }
         }
     }
+    private HoppersConfig(HoppersConfig other, int currentRow, int currentCol, int destinationRow, int destinationCol){
+
+        this.numberOfRow = other.numberOfRow;
+        this.numberOfCol = other.numberOfCol;
+        this.grid = new String[numberOfRow][numberOfCol];
+        for (int col = 0; col<numberOfCol; col++){
+            for (int row = 0; row<numberOfRow; row++){
+                grid[row][col] = other.grid[row][col]; // assigns new row and colum
+            }
+        }
+    }
 
     @Override
     public boolean isSolution() {
-
-        for (int x = 0; x < thiscol; x++) { //curserow
-            for (int y = 0; y < thisrow; y++) { // cursecol
-                boolean isRedFrog = true;
+        boolean isRedFrog = false;
+        for (int x = 0; x < numberOfRow; x++) { //curserow
+            for (int y = 0; y < numberOfCol; y++) { // cursecol
                 if (grid[x][y].equals("G")){
-                     isRedFrog = false;
-                }if (grid[x][y].equals(".")){
-                     isRedFrog = false;
-                }if (grid[x][y].equals("*")){
-                     isRedFrog = false;
-                }if (isRedFrog){
-                    return true;
+                    return false;
+                }
+                if (grid[x][y].equals("R")){
+                    isRedFrog = true;
                 }
             }
         }
-        return true;
+        return isRedFrog;
     }
+
 
 //   public Collection<Configuration> getCurrentNeighbors() throws IOException {
 //        // check each grid , generate configurations
@@ -87,36 +80,54 @@ public class HoppersConfig implements Configuration{
     @Override
     public Collection<Configuration> getNeighbors() throws IOException {
         Collection<Configuration>neighbors = new LinkedList<>(); // get the moves of the next board, create a helper function
-        for (int x = 0; x < thisrow; x++) { //curserow
-            for (int y = 0; y < thiscol; y++) { // cursecol
+        for (int x = 0; x < numberOfRow; x++) { //curserow
+            for (int y = 0; y < numberOfCol; y++) { // cursecol
                 if (grid[x][y].equals("G") || grid[x][y].equals("R")){
 
-                    if (x + 1 < thiscol && grid[x + 1][y].equals("G")) { // east
+                    if (x + 2 < numberOfCol && grid[x + 2][y].equals("G")) { // south
+                        if (x + 4 < numberOfCol && grid[x + 4][y].equals(".")){
+                            neighbors.add(new HoppersConfig(this, x, y, x+4, y));
+                        }
 
-                    } if (y + 1 < thisrow && grid[x][y + 1].equals("G")) { // south
+                    } if (y + 2 < numberOfRow && grid[x][y + 2].equals("G")) { // east
+                        if (y + 4 < numberOfRow && grid[x][y + 4].equals(".")){
+                            neighbors.add(new HoppersConfig(this, x, y, x, y+4));
+                        }
 
-                    } if (x - 1 >= 0 && grid[x - 1][y].equals("G")) { // west
+                    } if (x - 2 >= 0 && grid[x - 2][y].equals("G")) { // north
+                        if (x - 4 >= 0 && grid[x - 4][y].equals(".")){
+                            neighbors.add(new HoppersConfig(this, x, y, x-4, y));
+                        }
 
-                    } if (y - 1 >=0 && grid[x][y - 1].equals("G")) { // north
+                    } if (y - 2 >=0 && grid[x][y - 2].equals("G")) { // west
+                        if (y - 4 >=0 && grid[x][y - 4].equals(".")){
+                            neighbors.add(new HoppersConfig(this, x, y, x, y-4));
+                        }
 
-                    } if (x + 1 < thiscol && y + 1 < thisrow && grid[x + 1][y + 1].equals("G")) { // southeast
+                    } if (x + 1 < numberOfCol && y + 1 < numberOfRow && grid[x + 1][y + 1].equals("G")) { // southeast
+                        if (x + 2 < numberOfCol && y + 2 < numberOfRow && grid[x + 2][y + 2].equals(".")){
+                            neighbors.add(new HoppersConfig(this, x, y, x+2, y+2));
+                        }
 
-                    } if (x + 1 < thiscol && y - 1 >=0 && grid[x + 1][y - 1].equals("G")) { // southwest
+                    } if (x + 1 < numberOfCol && y - 1 >=0 && grid[x + 1][y - 1].equals("G")) { // southwest
+                        if (x + 2 < numberOfCol && y - 2 < numberOfRow && grid[x + 2][y - 2].equals(".")){
+                            neighbors.add(new HoppersConfig(this, x, y, x+2, y-2));
+                        }
 
-                    } if (x - 1 >= 0 && y + 1 < thisrow && grid[x - 1][y + 1].equals("G")) { // northeast
+                    } if (x - 1 >= 0 && y + 1 < numberOfRow && grid[x - 1][y + 1].equals("G")) { // northeast
+                        if (x - 2 < numberOfCol && y + 2 < numberOfRow && grid[x - 2][y + 2].equals(".")){
+                            neighbors.add(new HoppersConfig(this, x, y, x-2, y+2));
+                        }
 
                     } if (x - 1 >= 0 && y - 1 >=0 && grid[x - 1][y - 1].equals("G")) { // northwest
-
+                        if (x - 2 < numberOfCol && y - 2 < numberOfRow && grid[x - 2][y - 2].equals(".")){
+                            neighbors.add(new HoppersConfig(this, x, y, x-2, y-2));
+                        }
 
                     }
-//                    neighbors.addAll(getCurrentNeighbors());
                 }
             }
         }
-
-        // do a check if the red frog is still there
-        // loop through every coordinate, and check if there is a frog. every time you find a frog,
-        // check if it has a valid move
         return neighbors;
     }
 }

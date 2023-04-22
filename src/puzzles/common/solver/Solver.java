@@ -1,5 +1,6 @@
 package puzzles.common.solver;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Solver {
@@ -13,7 +14,7 @@ public class Solver {
      * @return ordered configurations from start to finish
      */
 
-    public static Collection<Configuration> getShortestPath(Configuration start) {
+    public static Collection<Configuration> getShortestPath(Configuration start) throws IOException {
         List<Configuration> queue = new ArrayList<>();
         // every time you loop through the neighbor, you add one to the total config.
         queue.add(start); // populate the queue with the starting node

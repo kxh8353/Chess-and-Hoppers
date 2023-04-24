@@ -21,7 +21,7 @@ public class Hoppers {
 
 
     public Hoppers(String filename) throws IOException {
-
+        line = new String(filename);
     }
 
 

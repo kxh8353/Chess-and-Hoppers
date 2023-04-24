@@ -7,8 +7,11 @@ import puzzles.chess.ptui.ChessPTUI;
 import java.io.IOException;
 import java.util.Scanner;
 
+import java.io.PrintWriter;
+
 public class HoppersPTUI implements Observer<HoppersModel, String> {
     private HoppersModel model;
+    private PrintWriter out;
 
     public void init(String filename) throws IOException {
         this.model = new HoppersModel(filename);
@@ -36,8 +39,8 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
      *  advance to the next step in the solution with an indication that it was successful.
      *  Otherwise the puzzle should remain in the same state and indicate there is no solution.
      */
-    public void HINT(){
-
+    public void HINT(String filename) throws IOException {
+        this.model.hint(filename);
     }
 
     /**
@@ -46,8 +49,8 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
      * should be loaded and displayed, along with an indication of success.
      * If the file cannot be read, an error message should be displayed and the previous puzzle file should remain loaded.
      */
-    public void LOAD(){
-
+    public void LOAD(String filename){
+        this.model.load(filename);
     }
 
     /**
@@ -62,23 +65,23 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
      * the previously selected piece to this location. If the move is valid, it should be made and the board should be
      * updated and with an appropriate indication. If the move is invalid, and error message should be displayed.
      */
-    public void SELECT(){
-
+    public void SELECT(String filename){
+        this.model.select(filename);
     }
 
     /**
      * The user can quit from and end the program.
      */
     public void QUIT(){
-
+        this.model.quit();
     }
 
     /**
      * The previously loaded file should be reloaded, causing the puzzle
      * to return to its initial state. An indication of the reset should be informed to the user.
      */
-    public void RESET(){
-
+    public void RESET() throws IOException {
+        this.model.reset();
     }
 
     public void run() {

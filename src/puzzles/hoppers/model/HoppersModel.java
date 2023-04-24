@@ -17,6 +17,8 @@ public class HoppersModel {
 
     /** the current configuration */
     private HoppersConfig currentConfig;
+    private Hoppers nextmove;
+    private Hoppers thismove;
     private String filename; // original filename
 
 
@@ -43,6 +45,8 @@ public class HoppersModel {
     public HoppersModel(String filename) throws IOException {
         this.filename = filename;
         currentConfig = new HoppersConfig(filename);
+        nextmove = new Hoppers(filename);
+        thismove = new Hoppers(filename);
 
     }
 
@@ -51,14 +55,17 @@ public class HoppersModel {
      *  advance to the next step in the solution with an indication that it was successful.
      *  Otherwise the puzzle should remain in the same state and indicate there is no solution.
      */
-//    public void hint(String filename){
-//        if (this.currentConfig == SOLVABLE){
-//            this.alertObservers(filename);
-//            this.currentConfig = SUCCESSFUL;
-//        } else {
-//            this.currentConfig = NO_SOLUTION;
-//        }
-//    }
+    public void hint(String filename) throws IOException {
+        try{
+            Hoppers hop = new Hoppers(filename);
+            nextmove = hop;
+
+        }catch (IOException e){
+            System.err.println("no solution");
+            Hoppers hop = new Hoppers(filename);
+            thismove = hop;
+        }
+    }
 
     /**
      * When loading, the user will provide the path and name of a puzzle file for the game to load.
@@ -88,15 +95,11 @@ public class HoppersModel {
      * the previously selected piece to this location. If the move is valid, it should be made and the board should be
      * updated and with an appropriate indication. If the move is invalid, and error message should be displayed.
      */
-//    public void select(String filename){
-//        this.currentMove = new puzzles.hoppers.model.HoppersConfig; // user selected coordinates
-//        if (this.currentMove.equals(PIECE_EXISTS)){
-//            this.alertObservers(filename);
-//        }else{
-//            System.err.println("no piece found");
-//        }
-//        this.currentMove = new puzzles.hoppers.model.HoppersConfig; // user selected coordinates
-//    }
+    public void select(String filename){
+        // first selection
+
+        // second selection
+    }
 
     /**
      * The user can quit from and end the program.

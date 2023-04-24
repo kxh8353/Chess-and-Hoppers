@@ -14,8 +14,7 @@ public class Chess {
             System.out.println("File:" + args[0]);
             ChessConfig start = new ChessConfig(args[0]);
             System.out.println(start.toString());
-            Solver solutionMaker5000 = new Solver(start);
-            solutionMaker5000.solutionFound();
+            Solver.getShortestPath(start);
         } catch (IOException i) {
             System.out.println("File not there.");
         }

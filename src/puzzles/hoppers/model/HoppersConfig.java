@@ -1,23 +1,150 @@
 package puzzles.hoppers.model;
 
+import puzzles.common.Coordinates;
 import puzzles.common.solver.Configuration;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Collection;
 
 // TODO: implement your HoppersConfig for the common solver
 
 public class HoppersConfig implements Configuration{
-    public HoppersConfig(String filename) throws IOException {
+
+    public static final String GREEN_FROG = "G";
+
+    public static final String RED_FROG = "R";
+
+    public static final String VALID_SPACE = ".";
+    public int numberOfRow;
+    public int numberOfCol;
+    private String[][] grid;
+
+
+
+
+    public HoppersConfig(String filename) throws IOException { // happens when pgrm cannot read a file
+        try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
+            String line = in.readLine();
+            String[] fields = line.split("\\s+");
+            numberOfRow = Integer.parseInt(fields[0]);
+            numberOfCol = Integer.parseInt(fields[1]);
+            grid = new String[numberOfRow][numberOfCol];
+            for (int i = 0; i < numberOfRow && i< numberOfCol; i++) {
+                line = in.readLine();
+                String[] dimensionFields = line.split("\\s+");
+                grid[i] = dimensionFields;
+            }
+        }
+    }
+    private HoppersConfig(HoppersConfig other, int currentRow, int currentCol, int destinationRow, int destinationCol){
+
+        this.numberOfRow = other.numberOfRow; // current assigns to other instance of
+        this.numberOfCol = other.numberOfCol;
+        this.grid = new String[numberOfRow][numberOfCol];
+        for (int col = 0; col<numberOfCol; col++) {
+            for (int row = 0; row < numberOfRow; row++) {
+                grid[row][col] = other.grid[row][col]; // assigns new row and colum
+            }
+        }
+
+        grid[destinationRow][destinationCol] = grid[currentRow][currentCol]; // move from left to right
+        grid[currentRow][currentCol] = VALID_SPACE; // original space is now valid
+        grid[(destinationRow+currentRow)/2][(destinationCol+currentCol)/2] = VALID_SPACE;
+
+
     }
 
     @Override
     public boolean isSolution() {
-        return false;
+        boolean isRedFrog = false;
+        for (int x = 0; x < numberOfRow; x++) { //curserow
+            for (int y = 0; y < numberOfCol; y++) { // cursecol
+                if (grid[x][y].equals(GREEN_FROG)){
+                    return false;
+                }
+                if (grid[x][y].equals(RED_FROG)){
+                    isRedFrog = true;
+                }
+            }
+        }
+        return isRedFrog;
     }
 
+
+//   public Collection<Configuration> getCurrentNeighbors() throws IOException {
+//        // check each grid , generate configurations
+//       // takes in row and colum that willl be checked
+//       // when this fjunction is called, determine valid moves
+//       // check condition
+//       Collection<Configuration>neighbors = new LinkedList<>();
+//       return neighbors;
+//   }
+
     @Override
-    public Collection<Configuration> getNeighbors() {
-        return null;
+    public Collection<Configuration> getNeighbors() throws IOException {
+        Collection<Configuration>neighbors = new LinkedList<>();
+        // get the moves of the next board
+
+        for (int x = 0; x < numberOfRow; x++) {
+            for (int y = 0; y < numberOfCol; y++) {
+                if (grid[x][y].equals(GREEN_FROG) || grid[x][y].equals(RED_FROG)){
+
+                    if (x + 4 < numberOfCol && grid[x + 2][y].equals(GREEN_FROG)) { // south
+                        if (x + 4 < numberOfCol && grid[x + 4][y].equals(VALID_SPACE)){
+                            neighbors.add(new HoppersConfig(this, x, y, x+4, y));
+                        }
+
+                    } if (y + 4 < numberOfRow && grid[x][y + 2].equals(GREEN_FROG)) { // east
+                        if (y + 4 < numberOfRow && grid[x][y + 4].equals(VALID_SPACE)){
+                            neighbors.add(new HoppersConfig(this, x, y, x, y+4));
+                        }
+
+                    } if (x - 4 >= 0 && grid[x - 2][y].equals(GREEN_FROG)) { // north
+                        if (x - 4 >= 0 && grid[x - 4][y].equals(VALID_SPACE)){
+                            neighbors.add(new HoppersConfig(this, x, y, x-4, y));
+                        }
+
+                    } if (y - 4 >=0 && grid[x][y - 2].equals(GREEN_FROG)) { // west
+                        if (y - 4 >=0 && grid[x][y - 4].equals(VALID_SPACE)){
+                            neighbors.add(new HoppersConfig(this, x, y, x, y-4));
+                        }
+
+                    } if (x + 1 < numberOfCol && y + 1 < numberOfRow && grid[x + 1][y + 1].equals(GREEN_FROG)) { // southeast
+                        if (x + 2 < numberOfCol && y + 2 < numberOfRow && grid[x + 2][y + 2].equals(VALID_SPACE)){
+                            neighbors.add(new HoppersConfig(this, x, y, x+2, y+2));
+                        }
+
+                    } if (x + 2 < numberOfCol && y - 2 >=0 && grid[x + 1][y - 1].equals(GREEN_FROG)) { // southwest
+                        if (x + 2 < numberOfCol && y - 2 < numberOfRow && grid[x + 2][y - 2].equals(VALID_SPACE)){
+                            neighbors.add(new HoppersConfig(this, x, y, x+2, y-2));
+                        }
+
+                    } if (x - 2 >= 0 && y + 2 < numberOfRow && grid[x - 1][y + 1].equals(GREEN_FROG)) { // northeast
+                        if (x - 2 < numberOfCol && y + 2 < numberOfRow && grid[x - 2][y + 2].equals(VALID_SPACE)){
+                            neighbors.add(new HoppersConfig(this, x, y, x-2, y+2));
+                        }
+
+                    } if (x - 2 >= 0 && y - 2 >=0 && grid[x - 1][y - 1].equals(GREEN_FROG)) { // northwest
+                        if (x - 2 < numberOfCol && y - 2 < numberOfRow && grid[x - 2][y - 2].equals(VALID_SPACE)){
+                            neighbors.add(new HoppersConfig(this, x, y, x-2, y-2));
+                        }
+                    }
+                }
+            }
+        }
+        return neighbors;
+    }
+    @Override
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+        result.append(Arrays.deepToString(grid));
+//        result = result.replace(",", "[", "]");
+        return result + "";
+
     }
 }

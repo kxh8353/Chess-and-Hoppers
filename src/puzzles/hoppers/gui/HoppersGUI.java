@@ -19,7 +19,11 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
     private final static String RESOURCES_DIR = "resources/";
 
     // for demonstration purposes
-    private Image redFrog = new Image(getClass().getResourceAsStream(RESOURCES_DIR+"red_frog.png"));
+    public Image redFrog = new Image(getClass().getResourceAsStream(RESOURCES_DIR+"red_frog.png"));
+
+    public Image greenFrog = new Image(getClass().getResourceAsStream(RESOURCES_DIR+"green_frog.png"));
+    public Image lilyPad = new Image(getClass().getResourceAsStream(RESOURCES_DIR+"lily_pad.png"));
+    public static Image water = new Image(HoppersGUI.class.getResourceAsStream(RESOURCES_DIR+"water.png"));
 
     private Stage stage;
 

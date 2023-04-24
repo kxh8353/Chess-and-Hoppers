@@ -2,10 +2,14 @@ package puzzles.hoppers.model;
 
 import puzzles.common.Observer;
 import puzzles.common.solver.Solver;
+import puzzles.hoppers.solver.Hoppers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class HoppersModel {
     /** the collection of observers of this model */
@@ -13,6 +17,10 @@ public class HoppersModel {
 
     /** the current configuration */
     private HoppersConfig currentConfig;
+    private Hoppers nextmove;
+    private Hoppers thismove;
+    private String filename; // original filename
+
 
     /**
      * The view calls this to add itself as an observer.
@@ -33,6 +41,78 @@ public class HoppersModel {
         }
     }
 
+
     public HoppersModel(String filename) throws IOException {
+        this.filename = filename;
+        currentConfig = new HoppersConfig(filename);
+        nextmove = new Hoppers(filename);
+        thismove = new Hoppers(filename);
+
+    }
+
+    /**
+     *  if the current state of the puzzle is solvable, the puzzle should
+     *  advance to the next step in the solution with an indication that it was successful.
+     *  Otherwise the puzzle should remain in the same state and indicate there is no solution.
+     */
+    public void hint(String filename) throws IOException {
+        try{
+            Hoppers hop = new Hoppers(filename);
+            nextmove = hop;
+
+        }catch (IOException e){
+            System.err.println("no solution");
+            Hoppers hop = new Hoppers(filename);
+            thismove = hop;
+        }
+    }
+
+    /**
+     * When loading, the user will provide the path and name of a puzzle file for the game to load.
+     * If the file is readable it is guaranteed to be a valid puzzle file and the new puzzle file
+     * should be loaded and displayed, along with an indication of success.
+     * If the file cannot be read, an error message should be displayed and the previous puzzle file should remain loaded.
+     */
+    public void load(String filename){ // new filename
+        try {
+            HoppersConfig experiment = new HoppersConfig(filename);
+            currentConfig = experiment;
+            this.filename = filename;
+        }catch(IOException e){
+            System.err.println("puzzle not found");
+        }
+    }
+
+    /**
+     * Part 1:
+     * For the first selection, the user should be able to select a cell on the board with the intention of
+     * selecting the piece at that location. If there is a piece there, there should be an indication and selection
+     * should advance to the second part. Otherwise if there is no piece there an error message should be displayed
+     * and selection has ended.
+     *
+     * Part 2:
+     * For the second selection, the user should be able to select another cell on the board with the intention of moving
+     * the previously selected piece to this location. If the move is valid, it should be made and the board should be
+     * updated and with an appropriate indication. If the move is invalid, and error message should be displayed.
+     */
+    public void select(String filename){
+        // first selection
+
+        // second selection
+    }
+
+    /**
+     * The user can quit from and end the program.
+     */
+    public void quit(){
+        System.exit(0);
+    }
+
+    /**
+     * The previously loaded file should be reloaded, causing the puzzle
+     * to return to its initial state. An indication of the reset should be informed to the user.
+     */
+    public void reset() throws IOException {
+        currentConfig = new HoppersConfig(filename);
     }
 }

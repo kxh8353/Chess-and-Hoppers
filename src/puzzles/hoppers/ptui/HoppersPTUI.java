@@ -31,6 +31,56 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
         System.out.println( "r(eset)             -- reset the current game" );
     }
 
+    /**
+     *  if the current state of the puzzle is solvable, the puzzle should
+     *  advance to the next step in the solution with an indication that it was successful.
+     *  Otherwise the puzzle should remain in the same state and indicate there is no solution.
+     */
+    public void HINT(){
+
+    }
+
+    /**
+     * When loading, the user will provide the path and name of a puzzle file for the game to load.
+     * If the file is readable it is guaranteed to be a valid puzzle file and the new puzzle file
+     * should be loaded and displayed, along with an indication of success.
+     * If the file cannot be read, an error message should be displayed and the previous puzzle file should remain loaded.
+     */
+    public void LOAD(){
+
+    }
+
+    /**
+     * Part 1:
+     * For the first selection, the user should be able to select a cell on the board with the intention of
+     * selecting the piece at that location. If there is a piece there, there should be an indication and selection
+     * should advance to the second part. Otherwise if there is no piece there an error message should be displayed
+     * and selection has ended.
+     *
+     * Part 2:
+     * For the second selection, the user should be able to select another cell on the board with the intention of moving
+     * the previously selected piece to this location. If the move is valid, it should be made and the board should be
+     * updated and with an appropriate indication. If the move is invalid, and error message should be displayed.
+     */
+    public void SELECT(){
+
+    }
+
+    /**
+     * The user can quit from and end the program.
+     */
+    public void QUIT(){
+
+    }
+
+    /**
+     * The previously loaded file should be reloaded, causing the puzzle
+     * to return to its initial state. An indication of the reset should be informed to the user.
+     */
+    public void RESET(){
+
+    }
+
     public void run() {
         Scanner in = new Scanner( System.in );
         for ( ; ; ) {

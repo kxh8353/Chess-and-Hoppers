@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Solver {
     public static int totalconfigs = 0;
-    public static int uniqueconfigs=0;
+    public static int uniqueconfigs = 0;
 
     /**
      * get the shortest path
@@ -22,16 +22,18 @@ public class Solver {
         Map<Configuration, Configuration> predecessors = new HashMap<>(); // construct the predecessors data structure
         predecessors.put(start, null); // put the starting node in, and assign itself as predecessor
         totalconfigs = 1;
+        predecessors.put(start, null); // put the starting node in, and assign itself as predecessor
         uniqueconfigs = 1;
 
         while (!queue.isEmpty()) { // loop until either the finish node is found, or the queue is empty
+
             Configuration current = queue.remove(0); // dequeue fron current configuration
             if (current.isSolution()) {
                 return constructPath(predecessors, current);
             }
             Collection<Configuration> neighbors = current.getNeighbors();
             for (Configuration neighbor : neighbors) { // loop over all neighbors of current
-                totalconfigs++;
+                totalconfigs++; // original
                 if (!predecessors.containsKey(neighbor)) { // process unvisited neighbors
                     predecessors.put(neighbor, current);
                     queue.add(neighbor);

@@ -22,6 +22,8 @@ public class HoppersConfig implements Configuration{
     public static final String VALID_SPACE = ".";
     public int numberOfRow;
     public int numberOfCol;
+
+    public Coordinates coordinates;
     private String[][] grid;
 
 
@@ -86,7 +88,7 @@ public class HoppersConfig implements Configuration{
 //   }
 
     @Override
-    public Collection<Configuration> getNeighbors() throws IOException {
+    public Collection<Configuration> getNeighbors() {
         Collection<Configuration>neighbors = new LinkedList<>();
         // get the moves of the next board
 
@@ -139,11 +141,23 @@ public class HoppersConfig implements Configuration{
         }
         return neighbors;
     }
+
+    public boolean isValidMove(){
+        if (numberOfCol == coordinates.col() && numberOfRow == coordinates.row()){
+            return true;
+        }
+        return false;
+    }
     @Override
     public String toString(){
         StringBuilder result = new StringBuilder();
-        result.append(Arrays.deepToString(grid));
-//        result = result.replace(",", "[", "]");
+        for (int col = 0; col<numberOfCol; col++){
+            result.append("\n");
+            for (int row = 0; row<numberOfRow; row++){
+
+                result.append(grid[col][row] + " ");
+            }
+        }
         return result + "";
 
     }

@@ -24,6 +24,10 @@ public class pawn extends chessPiece{
         }
         return false;
     }
+    /**
+     * "Move" a single space in only two upper diagonal positions. See chessPiece for more.
+     * @param boardRef board reference
+     * */
     public ArrayList<Coordinates> moveAndFindPiece(String[][] boardRef) {
         //Assuming board is rectangular.
         int minRowAndCol = 0;

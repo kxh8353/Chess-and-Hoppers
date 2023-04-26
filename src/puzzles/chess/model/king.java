@@ -24,6 +24,10 @@ public class king  extends chessPiece{
         }
         return false;
     }
+    /**
+     * "Move" a single space in all directions. See chessPiece for more.
+     * @param boardRef board reference
+     * */
     public ArrayList<Coordinates> moveAndFindPiece(String[][] boardRef){
         int minRowAndCol = 0;
         int maxRow = boardRef.length;

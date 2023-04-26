@@ -24,6 +24,10 @@ public class knight  extends chessPiece{
         }
         return false;
     }
+    /**
+     * "Move" a single space in all L shaped directions. See chessPiece for more.
+     * @param boardRef board reference
+     * */
     public ArrayList<Coordinates> moveAndFindPiece(String[][] boardRef){
         int minRowAndCol = 0;
         int maxRow = boardRef.length;

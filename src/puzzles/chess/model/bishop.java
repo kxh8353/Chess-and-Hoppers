@@ -22,6 +22,10 @@ public class bishop extends chessPiece {
         }
         return false;
     }
+    /**
+     * "Move" a single space in all diagonals. Stops in respective direction when a piece is found. See chessPiece for more.
+     * @param boardRef board reference
+     * */
     public ArrayList<Coordinates> moveAndFindPiece(String[][] boardRef){
         int minRowAndCol = 0;
         int maxRow = boardRef.length;

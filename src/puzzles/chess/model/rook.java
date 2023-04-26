@@ -3,7 +3,11 @@ package puzzles.chess.model;
 import puzzles.common.Coordinates;
 
 import java.util.ArrayList;
-
+/**
+ * rook.java
+ * Author:jw5250
+ *
+ * */
 public class rook  extends chessPiece {
     rook(Coordinates loc, String cr){
         super(loc, cr);

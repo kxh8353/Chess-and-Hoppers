@@ -3,7 +3,11 @@ package puzzles.chess.model;
 import puzzles.common.Coordinates;
 
 import java.util.ArrayList;
-
+/**
+ * queen.java
+ * Author:jw5250
+ *
+ * */
 public class queen extends chessPiece{
     queen(Coordinates loc, String cr){
         super(loc, cr);

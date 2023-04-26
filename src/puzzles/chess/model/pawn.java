@@ -3,7 +3,11 @@ package puzzles.chess.model;
 import puzzles.common.Coordinates;
 
 import java.util.ArrayList;
-
+/**
+ * pawn.java
+ * Author:jw5250
+ *
+ * */
 public class pawn extends chessPiece{
     public pawn(Coordinates loc, String cr){
         super(loc, cr);

@@ -3,7 +3,11 @@ package puzzles.chess.model;
 import puzzles.common.Coordinates;
 
 import java.util.ArrayList;
-
+/**
+ * knight.java
+ * Author:jw5250
+ *
+ * */
 public class knight  extends chessPiece{
     knight(Coordinates loc, String cr){
         super(loc, cr);

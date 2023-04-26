@@ -34,18 +34,13 @@ import puzzles.chess.model.ChessModel;
 import puzzles.chess.model.ChessConfig;
 
 /**
+ * ChessGUI.java
  * Author:jw5250
- * ChessGUI
      * Design plan:
          * Similar to PTUI
              * Part for displaying the messages from the update
              * Part for the board and pieces
              * Bottom part for the load, reset, and hint buttons
-     * Current goal:
-         * Need to find a way to resize gridpane
-         * Visuals not updating properly
-     * Questions:
-         * When trying to reassign the board with new GridPane, visuals stop updating with the model.
  *
  * */
 public class ChessGUI extends Application implements Observer<ChessModel, String> {

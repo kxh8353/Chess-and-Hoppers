@@ -1,6 +1,11 @@
 package puzzles.chess.model;
 import puzzles.common.Coordinates;
 import java.util.ArrayList;
+/**
+ * chessPiece.java
+ * user:jw5250
+ *
+ * */
 public abstract class chessPiece {
 
     private String sprite;

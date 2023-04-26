@@ -3,7 +3,11 @@ package puzzles.chess.model;
 import puzzles.common.Coordinates;
 
 import java.util.ArrayList;
-
+/**
+ * king.java
+ * Author:jw5250
+ *
+ * */
 public class king  extends chessPiece{
     king(Coordinates loc, String cr){
         super(loc, cr);

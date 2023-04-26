@@ -2,6 +2,11 @@ package puzzles.chess.model;
 
 import puzzles.common.Coordinates;
 import java.util.ArrayList;
+/**
+ * bishop.java
+ * Author:jw5250
+ *
+ * */
 public class bishop extends chessPiece {
     bishop(Coordinates loc, String cr){
         super(loc, cr);

@@ -6,9 +6,8 @@ import puzzles.chess.model.ChessModel;
 import java.io.IOException;
 import java.util.Scanner;
 /**
- * ChessPTUI class
+ * ChessPTUI.java
  * Author:jw5250
- * Problem with load.
  * */
 public class ChessPTUI implements Observer<ChessModel, String> {
     private ChessModel model;//The model in question.

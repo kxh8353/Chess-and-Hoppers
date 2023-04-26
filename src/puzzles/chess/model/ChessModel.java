@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 /**
- * ChessModel class
+ * ChessModel.java
 
- * Username: jw5250
+ * Author:jw5250
  * */
 public class ChessModel {
     /** the collection of observers of this model */

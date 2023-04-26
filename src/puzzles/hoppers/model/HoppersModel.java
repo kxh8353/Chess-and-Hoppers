@@ -64,12 +64,15 @@ public class HoppersModel {
      *  Otherwise the puzzle should remain in the same state and indicate there is no solution.
      */
     public void hint() throws IOException {
-        ArrayList<Configuration> path = (ArrayList<Configuration>) Solver.getShortestPath(configurationConfig);
+
+        ArrayList<Configuration> path = (ArrayList<Configuration>) Solver.getShortestPath(currentConfig);
         if (!path.isEmpty()){
             currentConfig = (HoppersConfig) path.get(1);
-            System.out.println("successful");
+            System.out.println("Next step!" + currentConfig);
         }
-        System.err.println("No solution");
+        else{
+            System.err.println("No solution");
+        }
     }
 
     /**
@@ -108,14 +111,16 @@ public class HoppersModel {
         // part 1
         if (selection.isValidMove()){ // if there is a green turtle on the coordinate
             this.currentConfig.isValidMove();
+            System.out.println("selected:" + selection);
         }else{
-            System.err.println("no piece");
+            System.err.println("no frog at:" + selection);
         }
         // part 2
         if (secondSelection.isValidMove()){ /// checks if there is a green turtle in the coordinate
             this.currentConfig.isValidMove();
+            System.out.println("jumped from" + selection + "to" + secondSelection);
         }else{
-            System.err.println("invalid move");
+            System.err.println("can't jump from:" + selection + "to" + secondSelection);
         }
     }
 

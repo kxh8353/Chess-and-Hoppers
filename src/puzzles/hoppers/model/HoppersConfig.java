@@ -2,6 +2,7 @@ package puzzles.hoppers.model;
 
 import puzzles.common.Coordinates;
 import puzzles.common.solver.Configuration;
+import puzzles.common.solver.Solver;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -78,62 +79,69 @@ public class HoppersConfig implements Configuration{
     }
 
 
-//   public Collection<Configuration> getCurrentNeighbors() throws IOException {
-//        // check each grid , generate configurations
-//       // takes in row and colum that willl be checked
-//       // when this fjunction is called, determine valid moves
-//       // check condition
-//       Collection<Configuration>neighbors = new LinkedList<>();
-//       return neighbors;
-//   }
-
     @Override
     public Collection<Configuration> getNeighbors() {
         Collection<Configuration>neighbors = new LinkedList<>();
         // get the moves of the next board
-
         for (int x = 0; x < numberOfRow; x++) {
             for (int y = 0; y < numberOfCol; y++) {
+
                 if (grid[x][y].equals(GREEN_FROG) || grid[x][y].equals(RED_FROG)){
+                    Solver.totalconfigs++;
 
                     if (x + 4 < numberOfCol && grid[x + 2][y].equals(GREEN_FROG)) { // south
                         if (x + 4 < numberOfCol && grid[x + 4][y].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x+4, y));
+                            Solver.uniqueconfigs++;
                         }
+
 
                     } if (y + 4 < numberOfRow && grid[x][y + 2].equals(GREEN_FROG)) { // east
                         if (y + 4 < numberOfRow && grid[x][y + 4].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x, y+4));
+                            Solver.uniqueconfigs++;
                         }
+
 
                     } if (x - 4 >= 0 && grid[x - 2][y].equals(GREEN_FROG)) { // north
                         if (x - 4 >= 0 && grid[x - 4][y].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x-4, y));
+                            Solver.uniqueconfigs++;
                         }
+
 
                     } if (y - 4 >=0 && grid[x][y - 2].equals(GREEN_FROG)) { // west
                         if (y - 4 >=0 && grid[x][y - 4].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x, y-4));
+                            Solver.uniqueconfigs++;
                         }
+
 
                     } if (x + 1 < numberOfCol && y + 1 < numberOfRow && grid[x + 1][y + 1].equals(GREEN_FROG)) { // southeast
                         if (x + 2 < numberOfCol && y + 2 < numberOfRow && grid[x + 2][y + 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x+2, y+2));
+                            Solver.uniqueconfigs++;
                         }
 
-                    } if (x + 2 < numberOfCol && y - 2 >=0 && grid[x + 1][y - 1].equals(GREEN_FROG)) { // southwest
+
+                    } if (x + 4 < numberOfCol && y - 2 >=0 && grid[x + 1][y - 1].equals(GREEN_FROG)) { // southwest
                         if (x + 2 < numberOfCol && y - 2 < numberOfRow && grid[x + 2][y - 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x+2, y-2));
+                            Solver.uniqueconfigs++;
                         }
+
 
                     } if (x - 2 >= 0 && y + 2 < numberOfRow && grid[x - 1][y + 1].equals(GREEN_FROG)) { // northeast
                         if (x - 2 < numberOfCol && y + 2 < numberOfRow && grid[x - 2][y + 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x-2, y+2));
+                            Solver.uniqueconfigs++;
                         }
+
 
                     } if (x - 2 >= 0 && y - 2 >=0 && grid[x - 1][y - 1].equals(GREEN_FROG)) { // northwest
                         if (x - 2 < numberOfCol && y - 2 < numberOfRow && grid[x - 2][y - 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x-2, y-2));
+                            Solver.uniqueconfigs++;
                         }
                     }
                 }
@@ -143,7 +151,7 @@ public class HoppersConfig implements Configuration{
     }
 
     public boolean isValidMove(){
-        if (numberOfCol == coordinates.col() && numberOfRow == coordinates.row()){
+        if (coordinates.col()<numberOfCol && coordinates.col()>0 && coordinates.row()<numberOfRow && coordinates.row()>0){ // >
             return true;
         }
         return false;
@@ -151,11 +159,11 @@ public class HoppersConfig implements Configuration{
     @Override
     public String toString(){
         StringBuilder result = new StringBuilder();
-        for (int col = 0; col<numberOfCol; col++){
+        for (int row = 0; row<numberOfRow; row++ ){
             result.append("\n");
-            for (int row = 0; row<numberOfRow; row++){
+            for (int col = 0; col<numberOfCol; col++){
 
-                result.append(grid[col][row] + " ");
+                result.append(grid[row][col] + " ");
             }
         }
         return result + "";

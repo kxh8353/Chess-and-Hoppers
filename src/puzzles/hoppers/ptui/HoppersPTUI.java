@@ -12,6 +12,9 @@ import java.io.PrintWriter;
 
 public class HoppersPTUI implements Observer<HoppersModel, String> {
     private HoppersModel model;
+    public static String filename;
+    public static HoppersConfig selection;
+    public static HoppersConfig secondselection;
 
     public void init(String filename) throws IOException {
         this.model = new HoppersModel(filename);
@@ -35,7 +38,7 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
     }
 
 
-    public void run(String filename, HoppersConfig selection, HoppersConfig secondSelection ) throws IOException {
+    public void run(String filename, HoppersConfig selection, HoppersConfig secondSelection) throws IOException {
         Scanner in = new Scanner( System.in );
         for ( ; ; ) {
             System.out.print( "> " );
@@ -52,6 +55,7 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
                     model.load(filename);
                 }
                 if (words[0].startsWith("s")){
+
                     model.select(selection, secondSelection);
                 }
                 if (words[0].startsWith( "q" )) {
@@ -64,14 +68,15 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
         }
     }
 
+
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Usage: java HoppersPTUI filename");
         } else {
             try {
-                ChessPTUI ptui = new ChessPTUI();
+                HoppersPTUI ptui = new HoppersPTUI();
                 ptui.init(args[0]);
-                ptui.run();
+                ptui.run(filename, selection, secondselection);
             } catch (IOException ioe) {
                 System.out.println(ioe.getMessage());
             }

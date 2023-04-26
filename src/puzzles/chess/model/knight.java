@@ -30,11 +30,13 @@ public class knight  extends chessPiece{
         int maxCol = boardRef[0].length;
         Coordinates NORTHRIGHTL = new Coordinates(-2, 1);
         Coordinates NORTHLEFTL = new Coordinates(-2, -1);
-        Coordinates SOUTHRIGHTL = new Coordinates(2, -1);
+
+        Coordinates SOUTHRIGHTL = new Coordinates(2, 1);
         Coordinates SOUTHLEFTL = new Coordinates(2, -1);
 
         Coordinates EASTRIGHTL = new Coordinates(1, 2);
         Coordinates EASTLEFTL = new Coordinates(-1, 2);
+
         Coordinates WESTRIGHTL = new Coordinates(-1, -2);
         Coordinates WESTLEFTL = new Coordinates(1, -2);
         Coordinates[] directions = {

@@ -18,9 +18,6 @@ public class Chess {
         try {
             ChessConfig start = new ChessConfig(args[0]);
             ArrayList<Configuration> g = (ArrayList<Configuration>)Solver.getShortestPath(start);
-            for(int i = 0; i < g.size();i++){
-                System.out.println(i + ". \n"+ g.get(i).toString());
-            }
         } catch (IOException i) {
             System.out.println("File not there.");
         }

@@ -87,19 +87,19 @@ public class HoppersConfig implements Configuration{
         // get the moves of the next board
         for (int x = 0; x < numberOfRow; x++) {
             for (int y = 0; y < numberOfCol; y++) {
-                System.out.println("Well");
+
                 if (grid[x][y].equals(GREEN_FROG) || grid[x][y].equals(RED_FROG)){
                     Solver.totalconfigs++;
 
-                    if (x + 2 < numberOfCol && grid[x + 2][y].equals(GREEN_FROG)) { // south
-                        if (x + 4 < numberOfCol && grid[x + 4][y].equals(VALID_SPACE)){
+                    if (x + 4 < numberOfRow && grid[x + 2][y].equals(GREEN_FROG)) { // south
+                        if (x + 4 < numberOfRow && grid[x + 4][y].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x+4, y));
                             Solver.uniqueconfigs++;
                         }
 
 
-                    } if (y + 4 < numberOfRow && grid[x][y + 2].equals(GREEN_FROG)) { // east
-                        if (y + 4 < numberOfRow && grid[x][y + 4].equals(VALID_SPACE)){
+                    } if (y + 4 < numberOfCol && grid[x][y + 2].equals(GREEN_FROG)) { // east
+                        if (y + 4 < numberOfCol && grid[x][y + 4].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x, y+4));
                             Solver.uniqueconfigs++;
                         }
@@ -119,29 +119,29 @@ public class HoppersConfig implements Configuration{
                         }
 
 
-                    } if (x + 1 < numberOfCol && y + 1 < numberOfRow && grid[x + 1][y + 1].equals(GREEN_FROG)) { // southeast
-                        if (x + 2 < numberOfCol && y + 2 < numberOfRow && grid[x + 2][y + 2].equals(VALID_SPACE)){
+                    } if (x + 2 < numberOfRow && y + 2 < numberOfCol && grid[x + 1][y + 1].equals(GREEN_FROG)) { // southeast
+                        if (x + 2 < numberOfRow && y + 2 < numberOfCol && grid[x + 2][y + 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x+2, y+2));
                             Solver.uniqueconfigs++;
                         }
 
 
-                    } if (x + 4 < numberOfCol && y - 2 >=0 && grid[x + 1][y - 1].equals(GREEN_FROG)) { // southwest
-                        if (x + 2 < numberOfCol && y - 2 < numberOfRow && grid[x + 2][y - 2].equals(VALID_SPACE)){
+                    } if (x + 2 < numberOfRow && y - 2 >=0 && grid[x + 1][y - 1].equals(GREEN_FROG)) { // southwest
+                        if (x + 2 < numberOfRow && y - 2 < numberOfCol && grid[x + 2][y - 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x+2, y-2));
                             Solver.uniqueconfigs++;
                         }
 
 
-                    } if (x - 2 >= 0 && y + 2 < numberOfRow && grid[x - 1][y + 1].equals(GREEN_FROG)) { // northeast
-                        if (x - 2 < numberOfCol && y + 2 < numberOfRow && grid[x - 2][y + 2].equals(VALID_SPACE)){
+                    } if (x - 2 >= 0 && y + 2 < numberOfCol && grid[x - 1][y + 1].equals(GREEN_FROG)) { // northeast
+                        if (x - 2 < numberOfRow && y + 2 < numberOfCol && grid[x - 2][y + 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x-2, y+2));
                             Solver.uniqueconfigs++;
                         }
 
 
                     } if (x - 2 >= 0 && y - 2 >=0 && grid[x - 1][y - 1].equals(GREEN_FROG)) { // northwest
-                        if (x - 2 < numberOfCol && y - 2 < numberOfRow && grid[x - 2][y - 2].equals(VALID_SPACE)){
+                        if (x - 2 < numberOfRow && y - 2 < numberOfCol && grid[x - 2][y - 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x-2, y-2));
                             Solver.uniqueconfigs++;
                         }

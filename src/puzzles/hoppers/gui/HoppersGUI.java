@@ -46,7 +46,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
 
     public Coordinates coordinates;
 
-//    public Button[][] updateButton; // = new Button[coordinates.row()][coordinates.col()];
+    public Button[][] updateButton; // = new Button[coordinates.row()][coordinates.col()];
 
     public Button squares;
 
@@ -55,36 +55,38 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
     public Button hint;
     public String filename;
     public GridPane gpane;
-
     public boolean hnt;
-
-
+    private boolean isInitialized = false;
     public void init() {
         String filename = getParameters().getRaw().get(0);
-//        this.updateButton = new Button[coordinates.row()][coordinates.col()];
-//        coordinates = new Coordinates(filename);
+
+
         try {
             model = new HoppersModel(filename);
             model.addObserver(this);
         }catch(IOException e){
             System.out.println("file not found");
         }
+        coordinates = new Coordinates(model.getter().numberOfRow, model.getter().numberOfCol); // newly added
+        this.updateButton = new Button[coordinates.row()][coordinates.col()]; // newly added
     }
 
     private GridPane design(){
         GridPane gridpane = new GridPane();
-        for (int row = 0; row < coordinates.row(); row++){
-            for (int col = 0; col < coordinates.col(); col++){
+        for (int row = 0; row < model.getter().numberOfRow; row++){
+            for (int col = 0; col < model.getter().numberOfCol; col++){
                 squares = new Button();
-                squares.setStyle("""
-                        -fx-background-color: blue;
-                        """);
+                squares.setMaxSize(75, 75);
+                squares.setMinSize(75, 75);
+                squares.setGraphic(new ImageView(water));
                 if (((row+col)%2)==0){
                     squares.setGraphic(new ImageView(lilyPad));
                 }
-//                updateButton[row][col] = squares;
+                updateButton[row][col] = squares; // newly added
+
                 gridpane.add(squares, row, col);
             }
+            gridpane.setAlignment(Pos.CENTER);
         }
         return gridpane;
     }
@@ -92,11 +94,11 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-//        gpane = design();
+        gpane = design(); // newly added
         stage.setTitle("Hoppers GUI");
         BorderPane bpane = new BorderPane();
         HBox hbox = new HBox();
-        Label label = new Label("well well well...");
+        Label label = new Label("well well well....");
         hbox.setAlignment(Pos.TOP_CENTER);
         hbox.getChildren().add(label);
         bpane.setTop(hbox);
@@ -105,12 +107,20 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         button.setGraphic(new ImageView(redFrog));
         button.setMinSize(ICON_SIZE, ICON_SIZE);
         button.setMaxSize(ICON_SIZE, ICON_SIZE);
-        bpane.setCenter(button);
+
+        bpane.setCenter(gpane); // newly added
+
         Scene scene = new Scene(bpane);
-//        stage.setScene(scene);
+        stage.setScene(scene); // newly added
+
+        // three bottom buttons
 
         HBox loadbutton = new HBox();
         load = new Button("LOAD");
+
+//        squares.setGraphic(new ImageView(greenFrog));
+//        squares.setGraphic(new ImageView(redFrog));
+
         load.setOnAction(event-> model.load(filename));
         loadbutton.getChildren().add(load);
 
@@ -136,7 +146,8 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         });
         hintbutton.getChildren().add(hint);
 
-//        HBox threeButtons = new HBox(load, reset, hint);
+
+
         HBox threeButtons = new HBox();
         threeButtons.getChildren().add(loadbutton);
         threeButtons.getChildren().add(resetbutton);
@@ -145,6 +156,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
 
         stage.setScene(scene);
         stage.show();
+        isInitialized = true;
     }
 
     @Override
@@ -158,6 +170,12 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                     throw new RuntimeException(e);
                 }
             });
+        }
+        if (!isInitialized) return;
+        for (int row = 0; row < model.getter().numberOfRow; row++){
+            for (int col = 0; col<model.getter().numberOfCol; col++){
+                updateButton[row][col].setText(model.getter().toString());
+            }
         }
         this.stage.sizeToScene();  // when a different sized puzzle is loaded
     }

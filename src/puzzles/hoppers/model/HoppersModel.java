@@ -32,6 +32,9 @@ public class HoppersModel {
     // check if the coordinates are valid in the current config
     // model takes in a coordinate
 
+    public HoppersConfig getter(){
+        return currentConfig;
+    }
 
     /**
      * The view calls this to add itself as an observer.

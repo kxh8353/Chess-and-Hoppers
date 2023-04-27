@@ -26,6 +26,7 @@ public class HoppersModel {
     private Configuration configurationConfig;
     private Coordinates coordinates;
 
+
     // instead of passing in a new configutaiuon into select, you want to pass a coordinate into the select function
     // isvalid finctun belongs in the hoppersconfig
     // check if the coordinates are valid in the current config
@@ -85,6 +86,7 @@ public class HoppersModel {
         try {
             currentConfig = new HoppersConfig(filename);
             this.filename = filename;
+            System.out.println("Loaded" + currentConfig);
         }catch(IOException e){
             System.err.println("puzzle not found");
 
@@ -103,22 +105,32 @@ public class HoppersModel {
      * the previously selected piece to this location. If the move is valid, it should be made and the board should be
      * updated and with an appropriate indication. If the move is invalid, and error message should be displayed.
      */
-    public void select(HoppersConfig selection, HoppersConfig secondSelection) throws IOException {
-        // is the coordinates specified in the grid
+    public void select() throws IOException {
         // in the current configuration, there is a valid piece at the row, col
         // ex: this.currentconfig.isvalidmove(selection)
-        Scanner in = new Scanner(System.in);
         // part 1
-        if (selection.isValidMove()){ // if there is a green turtle on the coordinate
-            this.currentConfig.isValidMove();
-            System.out.println("selected:" + selection);
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Enter r row value:");
+        int r = Integer.parseInt(input.next());
+
+        System.out.print("Enter c for col value:");
+        int c = Integer.parseInt(input.next());
+
+        Coordinates selection = new Coordinates(r, c);
+        if (r>=0 && r < currentConfig.numberOfRow && c>=0 && c < currentConfig.numberOfCol){
+            if (currentConfig.isValidMove(selection)){
+                System.out.println("selected:" + selection);
+            }
         }else{
             System.err.println("no frog at:" + selection);
         }
         // part 2
-        if (secondSelection.isValidMove()){ /// checks if there is a green turtle in the coordinate
-            this.currentConfig.isValidMove();
-            System.out.println("jumped from" + selection + "to" + secondSelection);
+        Coordinates secondSelection = new Coordinates(r, c);
+        if (r>=0 && r < currentConfig.numberOfRow && c>=0 && c < currentConfig.numberOfCol){
+            if (currentConfig.isValidMove(selection)){
+                System.out.println("jumped from " + selection + " to " + secondSelection);
+            }
         }else{
             System.err.println("can't jump from:" + selection + "to" + secondSelection);
         }
@@ -137,5 +149,6 @@ public class HoppersModel {
      */
     public void reset() throws IOException {
         currentConfig = new HoppersConfig(filename);
+        System.out.println("Loaded" + currentConfig);
     }
 }

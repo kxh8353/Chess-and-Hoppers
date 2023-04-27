@@ -26,11 +26,13 @@ public class HoppersConfig implements Configuration{
 
     public Coordinates coordinates;
     private String[][] grid;
+    public String filename;
 
 
 
 
     public HoppersConfig(String filename) throws IOException { // happens when pgrm cannot read a file
+        this.filename = filename;
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
             String line = in.readLine();
             String[] fields = line.split("\\s+");
@@ -45,7 +47,7 @@ public class HoppersConfig implements Configuration{
         }
     }
     private HoppersConfig(HoppersConfig other, int currentRow, int currentCol, int destinationRow, int destinationCol){
-
+        this.coordinates = new Coordinates(currentRow, currentCol);
         this.numberOfRow = other.numberOfRow; // current assigns to other instance of
         this.numberOfCol = other.numberOfCol;
         this.grid = new String[numberOfRow][numberOfCol];
@@ -85,11 +87,11 @@ public class HoppersConfig implements Configuration{
         // get the moves of the next board
         for (int x = 0; x < numberOfRow; x++) {
             for (int y = 0; y < numberOfCol; y++) {
-
+                System.out.println("Well");
                 if (grid[x][y].equals(GREEN_FROG) || grid[x][y].equals(RED_FROG)){
                     Solver.totalconfigs++;
 
-                    if (x + 4 < numberOfCol && grid[x + 2][y].equals(GREEN_FROG)) { // south
+                    if (x + 2 < numberOfCol && grid[x + 2][y].equals(GREEN_FROG)) { // south
                         if (x + 4 < numberOfCol && grid[x + 4][y].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x+4, y));
                             Solver.uniqueconfigs++;
@@ -150,7 +152,7 @@ public class HoppersConfig implements Configuration{
         return neighbors;
     }
 
-    public boolean isValidMove(){
+    public boolean isValidMove(Coordinates coordinates){
         if (coordinates.col()<numberOfCol && coordinates.col()>0 && coordinates.row()<numberOfRow && coordinates.row()>0){ // >
             return true;
         }

@@ -3,7 +3,11 @@ package puzzles.chess.model;
 import puzzles.common.Coordinates;
 
 import java.util.ArrayList;
-
+/**
+ * knight.java
+ * Author:jw5250
+ *
+ * */
 public class knight  extends chessPiece{
     knight(Coordinates loc, String cr){
         super(loc, cr);
@@ -24,17 +28,23 @@ public class knight  extends chessPiece{
         }
         return false;
     }
+    /**
+     * "Move" a single space in all L shaped directions. See chessPiece for more.
+     * @param boardRef board reference
+     * */
     public ArrayList<Coordinates> moveAndFindPiece(String[][] boardRef){
         int minRowAndCol = 0;
         int maxRow = boardRef.length;
         int maxCol = boardRef[0].length;
         Coordinates NORTHRIGHTL = new Coordinates(-2, 1);
         Coordinates NORTHLEFTL = new Coordinates(-2, -1);
-        Coordinates SOUTHRIGHTL = new Coordinates(2, -1);
+
+        Coordinates SOUTHRIGHTL = new Coordinates(2, 1);
         Coordinates SOUTHLEFTL = new Coordinates(2, -1);
 
         Coordinates EASTRIGHTL = new Coordinates(1, 2);
         Coordinates EASTLEFTL = new Coordinates(-1, 2);
+
         Coordinates WESTRIGHTL = new Coordinates(-1, -2);
         Coordinates WESTLEFTL = new Coordinates(1, -2);
         Coordinates[] directions = {

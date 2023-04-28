@@ -3,7 +3,11 @@ package puzzles.chess.model;
 import puzzles.common.Coordinates;
 
 import java.util.ArrayList;
-
+/**
+ * queen.java
+ * Author:jw5250
+ *
+ * */
 public class queen extends chessPiece{
     queen(Coordinates loc, String cr){
         super(loc, cr);
@@ -24,6 +28,10 @@ public class queen extends chessPiece{
         }
         return false;
     }
+    /**
+     * "Move" a single space in all diagonals and lines. Stops in respective direction when a piece is found. See chessPiece for more.
+     * @param boardRef board reference
+     * */
     public ArrayList<Coordinates> moveAndFindPiece(String[][] boardRef){
         int minRowAndCol = 0;
         int maxRow = boardRef.length;

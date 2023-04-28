@@ -1,6 +1,11 @@
 package puzzles.chess.model;
 import puzzles.common.Coordinates;
 import java.util.ArrayList;
+/**
+ * chessPiece.java
+ * user:jw5250
+ *
+ * */
 public abstract class chessPiece {
 
     private String sprite;
@@ -21,8 +26,14 @@ public abstract class chessPiece {
         location = new Coordinates(other.location.row(), other.location.col());
         sprite = new String(other.sprite);
     }
-
+    /**
+     * Deep copy a chessPiece object.
+     * */
     public abstract chessPiece clone();
+    /**
+     * "Move" a piece and get all potential valid coordinates.
+     * @param boardRef
+     * */
     public abstract ArrayList<Coordinates> moveAndFindPiece(String[][] boardRef);
     public void changeCoordinates(Coordinates c){
         location = new Coordinates(c.row(), c.col());

@@ -3,7 +3,11 @@ package puzzles.chess.model;
 import puzzles.common.Coordinates;
 
 import java.util.ArrayList;
-
+/**
+ * king.java
+ * Author:jw5250
+ *
+ * */
 public class king  extends chessPiece{
     king(Coordinates loc, String cr){
         super(loc, cr);
@@ -24,6 +28,10 @@ public class king  extends chessPiece{
         }
         return false;
     }
+    /**
+     * "Move" a single space in all directions. See chessPiece for more.
+     * @param boardRef board reference
+     * */
     public ArrayList<Coordinates> moveAndFindPiece(String[][] boardRef){
         int minRowAndCol = 0;
         int maxRow = boardRef.length;

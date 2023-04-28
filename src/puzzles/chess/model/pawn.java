@@ -3,7 +3,11 @@ package puzzles.chess.model;
 import puzzles.common.Coordinates;
 
 import java.util.ArrayList;
-
+/**
+ * pawn.java
+ * Author:jw5250
+ *
+ * */
 public class pawn extends chessPiece{
     public pawn(Coordinates loc, String cr){
         super(loc, cr);
@@ -24,6 +28,10 @@ public class pawn extends chessPiece{
         }
         return false;
     }
+    /**
+     * "Move" a single space in only two upper diagonal positions. See chessPiece for more.
+     * @param boardRef board reference
+     * */
     public ArrayList<Coordinates> moveAndFindPiece(String[][] boardRef) {
         //Assuming board is rectangular.
         int minRowAndCol = 0;

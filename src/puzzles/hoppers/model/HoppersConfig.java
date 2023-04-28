@@ -81,6 +81,9 @@ public class HoppersConfig implements Configuration{
     }
 
 
+    public String[][] getGrid(){
+        return grid;
+    }
     @Override
     public Collection<Configuration> getNeighbors() {
         Collection<Configuration>neighbors = new LinkedList<>();

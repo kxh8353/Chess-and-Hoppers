@@ -25,6 +25,7 @@ public class HoppersModel {
     private String filename; // original filename
     private Configuration configurationConfig;
     private Coordinates coordinates;
+    private Coordinates selectedFrog;
 
 
     // instead of passing in a new configutaiuon into select, you want to pass a coordinate into the select function
@@ -89,9 +90,9 @@ public class HoppersModel {
         try {
             currentConfig = new HoppersConfig(filename);
             this.filename = filename;
-            System.out.println("Loaded" + currentConfig);
+            alertObservers("Loaded" + currentConfig);
         }catch(IOException e){
-            System.err.println("puzzle not found");
+            alertObservers("puzzle not found");
 
         }
     }
@@ -108,33 +109,82 @@ public class HoppersModel {
      * the previously selected piece to this location. If the move is valid, it should be made and the board should be
      * updated and with an appropriate indication. If the move is invalid, and error message should be displayed.
      */
-    public void select() throws IOException {
+    public void select(int r, int c) throws IOException {
         // part 1
-        Scanner input = new Scanner(System.in);
 
-        System.out.print("Enter r row value:");
-        int r = Integer.parseInt(input.next());
+//        Scanner input = new Scanner(System.in);
 
-        System.out.print("Enter c for col value:");
-        int c = Integer.parseInt(input.next());
+        // pass in row and colum as parameters
+        // takes in row and colum
+
+//        System.out.print("Enter r row value:");
+//        int r = Integer.parseInt(input.next());
+
+//        System.out.print("Enter c for col value:");
+//        int c = Integer.parseInt(input.next());
 
         Coordinates firstSelection = new Coordinates(r, c);
-        if (r>=0 && r < currentConfig.numberOfRow && c>=0 && c < currentConfig.numberOfCol){
+//        if (r>=0 && r < currentConfig.numberOfRow && c>=0 && c < currentConfig.numberOfCol){
+//        if (selectedFrog==null){
+
             if (currentConfig.isValidMove(firstSelection)){
-                System.out.println("selected:" + firstSelection);
+                alertObservers("Selected: " + firstSelection);
+                if (selectedFrog==null){
+
+
+                    if (currentConfig.getGrid()[r][c].equals("G") || currentConfig.getGrid()[r][c].equals("R")){ // if theres a frog at the current spot, store it as a select
+                        selectedFrog = new Coordinates(r, c);
+                    } else{
+                        alertObservers("no frog at " + firstSelection);
+                    }
+
+                }else{
+                    // there is currently a selected froig and you are clocking somewhere else
+                    // do jumping here
+
+                }
+
+
+//                if (){
+//
+//                }else{
+                // alertobservers no frog at
+
+//                System.out.println("selected:" + firstSelection);
+//            }
+            }else{
+                alertObservers("out of bounds: " + firstSelection);
             }
-        }else{
-            System.err.println("no frog at: " + firstSelection);
-        }
+
+//        }else{
+//            // there is currently a selected froig and you are clocking somewhere else
+//
+//        }
+//        if (currentConfig.isValidMove(firstSelection)){
+//            alertObservers("Selected: " + firstSelection);
+//
+////                if (){
+////
+////                }else{
+//            // alertobservers no frog at
+//
+////                System.out.println("selected:" + firstSelection);
+////            }
+//        }else{
+//            alertObservers("out of bounds: " + firstSelection);
+//        }
+
         // part 2
-        Coordinates secondSelection = new Coordinates(r, c);
-        if (r>=0 && r < currentConfig.numberOfRow && c>=0 && c < currentConfig.numberOfCol){
-            if (currentConfig.isValidMove(secondSelection)){
-                System.out.println("jumped from " + firstSelection + " to " + secondSelection);
-            }
-        }else{
-            System.err.println("can't jump from: " + firstSelection + " to " + secondSelection);
-        }
+//        Coordinates secondSelection = new Coordinates(r, c);
+//        if (r>=0 && r < currentConfig.numberOfRow && c>=0 && c < currentConfig.numberOfCol){
+//            if (currentConfig.isValidMove(secondSelection)){
+//                alertObservers("jumped from " + firstSelection + " to " + secondSelection);
+//            }
+//        }else{
+//            alertObservers("can't jump from: " + firstSelection + " to " + secondSelection);
+//        }
+
+
     }
 
     /**
@@ -150,6 +200,6 @@ public class HoppersModel {
      */
     public void reset() throws IOException {
         currentConfig = new HoppersConfig(filename);
-        System.out.println("Loaded" + currentConfig);
+        alertObservers("Loaded" + currentConfig);
     }
 }

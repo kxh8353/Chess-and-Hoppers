@@ -60,7 +60,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
     public Button hint;
     public String filename;
     public GridPane gpane;
-    public boolean hnt;
+    public boolean loaded;
     private boolean isInitialized = false;
     public void init() {
         String filename = getParameters().getRaw().get(0);
@@ -84,15 +84,30 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                 squares.setMaxSize(75, 75);
                 squares.setMinSize(75, 75);
                 squares.setGraphic(new ImageView(water));
+
+//                load = new Button("LOAD");
+                final int r = row;
+                final int c = col;
+                squares.setOnAction(event-> {
+                    try {
+                        model.select(r, c);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+
+
+
                 if (((row+col)%2)==0){
                     squares.setGraphic(new ImageView(lilyPad));
                 }
-//                if (updateButton[row][col].contains("R")) {
+                if (model.getter().getGrid()[row][col].equals("R")) {
                     squares.setGraphic(new ImageView(redFrog));
-//                }
-//                if (updateButton[row][col].contains("G")){
+                }
+                if (model.getter().getGrid()[row][col].equals("G")){
                     squares.setGraphic(new ImageView(greenFrog));
-//                }
+                }
                 updateButton[row][col] = squares; // newly added
 
                 gridpane.add(squares, row, col);
@@ -128,7 +143,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         load.setOnAction(event-> {
             FileChooser fileChooser = new FileChooser();
             String currentPath = Paths.get(".").toAbsolutePath().normalize().toString();
-            currentPath += File.separator + "data" + File.separator + "chess";  // or "hoppers"
+            currentPath += File.separator + "data" + File.separator + "hoppers";  // or "hoppers"
             fileChooser.setInitialDirectory(new File(currentPath));
 
             File file = fileChooser.showOpenDialog(stage);
@@ -138,7 +153,8 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                model.load(filename);
+                this.filename = String.valueOf(file);
+                model.load(this.filename);
             }
 
         });
@@ -181,14 +197,12 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
 
     @Override
     public void update(HoppersModel hoppersModel, String msg) {
-        if (!hnt){
-            hint = new Button("HINT");
-            hint.setOnAction(event -> {
-                try {
-                    model.hint();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+        System.out.println(msg);
+
+        if (!loaded){
+            load = new Button("LOAD");
+            load.setOnAction(event -> {
+                model.load(this.filename);
             });
         }
         if (!isInitialized) return;

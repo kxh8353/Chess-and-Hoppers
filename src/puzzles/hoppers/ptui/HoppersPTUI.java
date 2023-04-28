@@ -60,7 +60,7 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
                 }
                 if (words[0].startsWith( "s" )){
 
-                    model.select();
+                    model.select(Integer.parseInt(words[1]), Integer.parseInt(words[2]));
                 }
                 if (words[0].startsWith( "q" )) {
                     break;

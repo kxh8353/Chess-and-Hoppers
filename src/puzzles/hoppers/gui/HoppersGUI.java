@@ -82,6 +82,12 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                 if (((row+col)%2)==0){
                     squares.setGraphic(new ImageView(lilyPad));
                 }
+//                if (updateButton[row][col].contains("R")) {
+                    squares.setGraphic(new ImageView(redFrog));
+//                }
+//                if (updateButton[row][col].contains("G")){
+                    squares.setGraphic(new ImageView(greenFrog));
+//                }
                 updateButton[row][col] = squares; // newly added
 
                 gridpane.add(squares, row, col);
@@ -103,10 +109,10 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         hbox.getChildren().add(label);
         bpane.setTop(hbox);
 
-        Button button = new Button();
-        button.setGraphic(new ImageView(redFrog));
-        button.setMinSize(ICON_SIZE, ICON_SIZE);
-        button.setMaxSize(ICON_SIZE, ICON_SIZE);
+//        Button button = new Button();
+//        button.setGraphic(new ImageView(redFrog));
+//        button.setMinSize(ICON_SIZE, ICON_SIZE);
+//        button.setMaxSize(ICON_SIZE, ICON_SIZE);
 
         bpane.setCenter(gpane); // newly added
 
@@ -117,9 +123,6 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
 
         HBox loadbutton = new HBox();
         load = new Button("LOAD");
-
-//        squares.setGraphic(new ImageView(greenFrog));
-//        squares.setGraphic(new ImageView(redFrog));
 
         load.setOnAction(event-> model.load(filename));
         loadbutton.getChildren().add(load);

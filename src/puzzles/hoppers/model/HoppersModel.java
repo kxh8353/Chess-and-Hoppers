@@ -109,8 +109,6 @@ public class HoppersModel {
      * updated and with an appropriate indication. If the move is invalid, and error message should be displayed.
      */
     public void select() throws IOException {
-        // in the current configuration, there is a valid piece at the row, col
-        // ex: this.currentconfig.isvalidmove(selection)
         // part 1
         Scanner input = new Scanner(System.in);
 

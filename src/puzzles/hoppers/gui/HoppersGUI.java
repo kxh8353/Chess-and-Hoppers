@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import puzzles.common.Coordinates;
 import puzzles.common.Observer;
 import puzzles.hoppers.model.HoppersConfig;
@@ -18,8 +19,12 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import puzzles.hoppers.ptui.HoppersPTUI;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Objects;
+
+import static jdk.jfr.consumer.EventStream.openFile;
 
 public class HoppersGUI extends Application implements Observer<HoppersModel, String> {
     /** The size of all icons, in square dimension */
@@ -37,8 +42,8 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
     public Image greenFrog = new Image(Objects.requireNonNull(getClass().getResourceAsStream(RESOURCES_DIR + "green_frog.png")));
     public Image lilyPad = new Image(Objects.requireNonNull(getClass().getResourceAsStream(RESOURCES_DIR + "lily_pad.png")));
 
-    public static Image water = new Image(Objects.requireNonNull(HoppersGUI.class.getResourceAsStream(RESOURCES_DIR + "water.png")));
-//    public static Image water = new Image(HoppersGUI.class.getResourceAsStream(RESOURCES_DIR+"water.png"));
+//    public static Image water = new Image(Objects.requireNonNull(HoppersGUI.class.getResourceAsStream(RESOURCES_DIR + "water.png")));
+    public static Image water = new Image(HoppersGUI.class.getResourceAsStream(RESOURCES_DIR+"water.png"));
 
     private Stage stage;
 
@@ -99,20 +104,16 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
 
     @Override
     public void start(Stage stage) throws Exception {
+        String filename = getParameters().getRaw().get(0);
         this.stage = stage;
         gpane = design(); // newly added
         stage.setTitle("Hoppers GUI");
         BorderPane bpane = new BorderPane();
         HBox hbox = new HBox();
-        Label label = new Label("well well well....");
+        Label label = new Label("well well well...");
         hbox.setAlignment(Pos.TOP_CENTER);
         hbox.getChildren().add(label);
         bpane.setTop(hbox);
-
-//        Button button = new Button();
-//        button.setGraphic(new ImageView(redFrog));
-//        button.setMinSize(ICON_SIZE, ICON_SIZE);
-//        button.setMaxSize(ICON_SIZE, ICON_SIZE);
 
         bpane.setCenter(gpane); // newly added
 
@@ -121,13 +122,29 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
 
         // three bottom buttons
 
-        HBox loadbutton = new HBox();
+        HBox loader = new HBox();
         load = new Button("LOAD");
 
-        load.setOnAction(event-> model.load(filename));
-        loadbutton.getChildren().add(load);
+        load.setOnAction(event-> {
+            FileChooser fileChooser = new FileChooser();
+            String currentPath = Paths.get(".").toAbsolutePath().normalize().toString();
+            currentPath += File.separator + "data" + File.separator + "chess";  // or "hoppers"
+            fileChooser.setInitialDirectory(new File(currentPath));
 
-        HBox resetbutton = new HBox();
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                try {
+                    openFile(file.toPath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                model.load(filename);
+            }
+
+        });
+        loader.getChildren().add(load);
+
+        HBox resetter = new HBox();
         reset = new Button("RESET");
         reset.setOnAction(event -> {
             try {
@@ -136,9 +153,9 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                 throw new RuntimeException(e);
             }
         });
-        resetbutton.getChildren().add(reset);
+        resetter.getChildren().add(reset);
 
-        HBox hintbutton = new HBox();
+        HBox hinter = new HBox();
         hint = new Button("HINT");
         hint.setOnAction(event -> {
             try {
@@ -147,14 +164,14 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                 throw new RuntimeException(e);
             }
         });
-        hintbutton.getChildren().add(hint);
+        hinter.getChildren().add(hint);
 
 
 
         HBox threeButtons = new HBox();
-        threeButtons.getChildren().add(loadbutton);
-        threeButtons.getChildren().add(resetbutton);
-        threeButtons.getChildren().add(hintbutton);
+        threeButtons.getChildren().add(loader);
+        threeButtons.getChildren().add(resetter);
+        threeButtons.getChildren().add(hinter);
         bpane.setBottom(threeButtons);
 
         stage.setScene(scene);

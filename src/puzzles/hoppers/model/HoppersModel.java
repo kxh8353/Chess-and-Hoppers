@@ -118,22 +118,22 @@ public class HoppersModel {
         System.out.print("Enter c for col value:");
         int c = Integer.parseInt(input.next());
 
-        Coordinates selection = new Coordinates(r, c);
+        Coordinates firstSelection = new Coordinates(r, c);
         if (r>=0 && r < currentConfig.numberOfRow && c>=0 && c < currentConfig.numberOfCol){
-            if (currentConfig.isValidMove(selection)){
-                System.out.println("selected:" + selection);
+            if (currentConfig.isValidMove(firstSelection)){
+                System.out.println("selected:" + firstSelection);
             }
         }else{
-            System.err.println("no frog at:" + selection);
+            System.err.println("no frog at: " + firstSelection);
         }
         // part 2
         Coordinates secondSelection = new Coordinates(r, c);
         if (r>=0 && r < currentConfig.numberOfRow && c>=0 && c < currentConfig.numberOfCol){
-            if (currentConfig.isValidMove(selection)){
-                System.out.println("jumped from " + selection + " to " + secondSelection);
+            if (currentConfig.isValidMove(secondSelection)){
+                System.out.println("jumped from " + firstSelection + " to " + secondSelection);
             }
         }else{
-            System.err.println("can't jump from:" + selection + "to" + secondSelection);
+            System.err.println("can't jump from: " + firstSelection + " to " + secondSelection);
         }
     }
 

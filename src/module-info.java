@@ -1,5 +1,6 @@
 module BFSPuzzleSolver {
     requires transitive javafx.controls;
+    requires jdk.jfr;
     exports puzzles.common;
     exports puzzles.common.solver;
     exports puzzles.hoppers.gui;

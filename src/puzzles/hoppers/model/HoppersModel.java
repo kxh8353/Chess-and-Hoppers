@@ -73,10 +73,10 @@ public class HoppersModel {
         ArrayList<Configuration> path = (ArrayList<Configuration>) Solver.getShortestPath(currentConfig);
         if (!path.isEmpty()){
             currentConfig = (HoppersConfig) path.get(1);
-            System.out.println("Next step!" + currentConfig);
+            alertObservers("Next step!");
         }
         else{
-            System.err.println("No solution");
+            alertObservers("No solution");
         }
     }
 
@@ -90,7 +90,7 @@ public class HoppersModel {
         try {
             currentConfig = new HoppersConfig(filename);
             this.filename = filename;
-            alertObservers("Loaded" + currentConfig);
+            alertObservers("Loaded" + this.filename);
         }catch(IOException e){
             alertObservers("puzzle not found");
 
@@ -200,6 +200,6 @@ public class HoppersModel {
      */
     public void reset() throws IOException {
         currentConfig = new HoppersConfig(filename);
-        alertObservers("Loaded" + currentConfig);
+        System.out.println("Loaded");
     }
 }

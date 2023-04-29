@@ -60,8 +60,10 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
     public Button hint;
     public String filename;
     public GridPane gpane;
-    public boolean loaded;
-    private boolean isInitialized = false;
+    public boolean loaded = false;
+    public Label label;
+    private BorderPane borderPane;
+
     public void init() {
         String filename = getParameters().getRaw().get(0);
 
@@ -108,9 +110,9 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                 if (model.getter().getGrid()[row][col].equals("G")){
                     squares.setGraphic(new ImageView(greenFrog));
                 }
-                updateButton[row][col] = squares; // newly added
+                updateButton[row][col] = squares; // 2D Button[][]
 
-                gridpane.add(squares, row, col);
+                gridpane.add(squares, col, row);
             }
             gridpane.setAlignment(Pos.CENTER);
         }
@@ -119,20 +121,19 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
 
     @Override
     public void start(Stage stage) throws Exception {
-        String filename = getParameters().getRaw().get(0);
         this.stage = stage;
         gpane = design(); // newly added
         stage.setTitle("Hoppers GUI");
-        BorderPane bpane = new BorderPane();
+        borderPane = new BorderPane();
         HBox hbox = new HBox();
-        Label label = new Label("well well well...");
+        label = new Label("Loaded:");
         hbox.setAlignment(Pos.TOP_CENTER);
         hbox.getChildren().add(label);
-        bpane.setTop(hbox);
+        borderPane.setTop(hbox);
 
-        bpane.setCenter(gpane); // newly added
+        borderPane.setCenter(gpane); // newly added
 
-        Scene scene = new Scene(bpane);
+        Scene scene = new Scene(borderPane);
         stage.setScene(scene); // newly added
 
         // three bottom buttons
@@ -155,6 +156,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                 }
                 this.filename = String.valueOf(file);
                 model.load(this.filename);
+                loaded = true;
             }
 
         });
@@ -182,35 +184,36 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         });
         hinter.getChildren().add(hint);
 
-
-
         HBox threeButtons = new HBox();
         threeButtons.getChildren().add(loader);
         threeButtons.getChildren().add(resetter);
         threeButtons.getChildren().add(hinter);
-        bpane.setBottom(threeButtons);
+        threeButtons.setAlignment(Pos.BOTTOM_CENTER);
+        borderPane.setBottom(threeButtons);
 
         stage.setScene(scene);
         stage.show();
-        isInitialized = true;
     }
 
     @Override
     public void update(HoppersModel hoppersModel, String msg) {
         System.out.println(msg);
 
-        if (!loaded){
-            load = new Button("LOAD");
-            load.setOnAction(event -> {
-                model.load(this.filename);
-            });
-        }
-        if (!isInitialized) return;
-        for (int row = 0; row < model.getter().numberOfRow; row++){
-            for (int col = 0; col<model.getter().numberOfCol; col++){
-                updateButton[row][col].setText(model.getter().toString());
-            }
-        }
+//        if (!loaded){
+//            load = new Button("LOAD");
+//            load.setOnAction(event -> {
+//                model.load(this.filename);
+//            });
+//            label.setText(msg);
+//        }
+        borderPane.setCenter(design());
+
+//        if (loaded){
+//                coordinates = new Coordinates(model.getter().numberOfRow, model.getter().numberOfCol); // newly added
+//                this.updateButton = new Button[coordinates.row()][coordinates.col()]; // newly added
+////                this.updateButton[model.getter().coordinates.row()][model.getter().coordinates.col()].setText(model.getter().toString());
+//        }
+        label.setText(msg);
         this.stage.sizeToScene();  // when a different sized puzzle is loaded
     }
 

@@ -4,17 +4,11 @@ import puzzles.common.Coordinates;
 import puzzles.common.Observer;
 import puzzles.common.solver.Configuration;
 import puzzles.common.solver.Solver;
-import puzzles.hoppers.solver.Hoppers;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
-
-
-import java.util.Collection;
 
 public class HoppersModel {
     /** the collection of observers of this model */
@@ -25,7 +19,8 @@ public class HoppersModel {
     private String filename; // original filename
     private Configuration configurationConfig;
     private Coordinates coordinates;
-    private Coordinates selectedFrog;
+    private Coordinates selectedSpace;
+
 
 
     // instead of passing in a new configutaiuon into select, you want to pass a coordinate into the select function
@@ -36,6 +31,8 @@ public class HoppersModel {
     public HoppersConfig getter(){
         return currentConfig;
     }
+    // rows
+    // cols
 
     /**
      * The view calls this to add itself as an observer.
@@ -88,14 +85,18 @@ public class HoppersModel {
      */
     public void load(String filename){ // new filename
         try {
-            currentConfig = new HoppersConfig(filename);
             this.filename = filename;
-            alertObservers("Loaded" + this.filename);
+            currentConfig = new HoppersConfig(filename);
+            alertObservers("Loaded" + filename);
         }catch(IOException e){
             alertObservers("puzzle not found");
 
         }
     }
+
+//    public boolean isvalid(int r, int c){
+//        return (currentConfig.getGrid()[r][c].equals("."));
+//    }
 
     /**
      * Part 1:
@@ -110,79 +111,32 @@ public class HoppersModel {
      * updated and with an appropriate indication. If the move is invalid, and error message should be displayed.
      */
     public void select(int r, int c) throws IOException {
-        // part 1
-
-//        Scanner input = new Scanner(System.in);
-
-        // pass in row and colum as parameters
-        // takes in row and colum
-
-//        System.out.print("Enter r row value:");
-//        int r = Integer.parseInt(input.next());
-
-//        System.out.print("Enter c for col value:");
-//        int c = Integer.parseInt(input.next());
-
-        Coordinates firstSelection = new Coordinates(r, c);
-//        if (r>=0 && r < currentConfig.numberOfRow && c>=0 && c < currentConfig.numberOfCol){
-//        if (selectedFrog==null){
-
-            if (currentConfig.isValidMove(firstSelection)){
-                alertObservers("Selected: " + firstSelection);
-                if (selectedFrog==null){
-
-
-                    if (currentConfig.getGrid()[r][c].equals("G") || currentConfig.getGrid()[r][c].equals("R")){ // if theres a frog at the current spot, store it as a select
-                        selectedFrog = new Coordinates(r, c);
-                    } else{
-                        alertObservers("no frog at " + firstSelection);
-                    }
-
-                }else{
-                    // there is currently a selected froig and you are clocking somewhere else
-                    // do jumping here
-
-                }
-
-
-//                if (){
-//
-//                }else{
-                // alertobservers no frog at
-
-//                System.out.println("selected:" + firstSelection);
-//            }
-            }else{
-                alertObservers("out of bounds: " + firstSelection);
+        Coordinates coordinates = new Coordinates(r, c);
+        if (selectedSpace == null){
+            if (currentConfig.isValidMove(coordinates) && currentConfig.getGrid()[r][c].equals("G") || currentConfig.getGrid()[r][c].equals("R")){ // if theres a frog at the current spot, store it as a select
+                    selectedSpace = coordinates;
+                    alertObservers("Selected: " + coordinates);
+            } else{
+                alertObservers("no frog at " + coordinates);
             }
+        }else{
+            // there is currently a selected froig and you are clocking somewhere else
+            // do jumping here
+            Coordinates secondSelection = new Coordinates(r, c);
+            // the coordinate jump to has to be a valid space
+            // has to jump over a green frog
+            if (currentConfig.isValidMove(secondSelection) && currentConfig.isvalidSpace(secondSelection) && currentConfig.jumpOverGreenFrog(selectedSpace,secondSelection)) {
+                // do the jump by chnageing the grid or the current config
+                currentConfig = new HoppersConfig(currentConfig, selectedSpace.row(), selectedSpace.col(), r, c);
+                alertObservers("jumped from " + selectedSpace + " to " + secondSelection); // to new coordinates secondselection
+                selectedSpace = null;
+            }
+            else{
+                alertObservers("Invalid Selection: " + secondSelection);
+            }
+            selectedSpace = null;
+        }
 
-//        }else{
-//            // there is currently a selected froig and you are clocking somewhere else
-//
-//        }
-//        if (currentConfig.isValidMove(firstSelection)){
-//            alertObservers("Selected: " + firstSelection);
-//
-////                if (){
-////
-////                }else{
-//            // alertobservers no frog at
-//
-////                System.out.println("selected:" + firstSelection);
-////            }
-//        }else{
-//            alertObservers("out of bounds: " + firstSelection);
-//        }
-
-        // part 2
-//        Coordinates secondSelection = new Coordinates(r, c);
-//        if (r>=0 && r < currentConfig.numberOfRow && c>=0 && c < currentConfig.numberOfCol){
-//            if (currentConfig.isValidMove(secondSelection)){
-//                alertObservers("jumped from " + firstSelection + " to " + secondSelection);
-//            }
-//        }else{
-//            alertObservers("can't jump from: " + firstSelection + " to " + secondSelection);
-//        }
 
 
     }
@@ -200,6 +154,10 @@ public class HoppersModel {
      */
     public void reset() throws IOException {
         currentConfig = new HoppersConfig(filename);
-        System.out.println("Loaded");
+        alertObservers("Puzzle  Reset!");
+    }
+
+    public String toString(){
+        return currentConfig.toString();
     }
 }

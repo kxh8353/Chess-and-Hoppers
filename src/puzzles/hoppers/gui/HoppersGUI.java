@@ -42,8 +42,8 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
     public Image greenFrog = new Image(Objects.requireNonNull(getClass().getResourceAsStream(RESOURCES_DIR + "green_frog.png")));
     public Image lilyPad = new Image(Objects.requireNonNull(getClass().getResourceAsStream(RESOURCES_DIR + "lily_pad.png")));
 
-//    public static Image water = new Image(Objects.requireNonNull(HoppersGUI.class.getResourceAsStream(RESOURCES_DIR + "water.png")));
-    public static Image water = new Image(HoppersGUI.class.getResourceAsStream(RESOURCES_DIR+"water.png"));
+    public static Image water = new Image(Objects.requireNonNull(HoppersGUI.class.getResourceAsStream(RESOURCES_DIR + "water.png")));
+//    public static Image water = new Image(HoppersGUI.class.getResourceAsStream(RESOURCES_DIR+"water.png"));
 
     private Stage stage;
 
@@ -51,7 +51,6 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
 
     public Coordinates coordinates;
 
-    public Button[][] updateButton; // = new Button[coordinates.row()][coordinates.col()];
 
     public Button squares;
 
@@ -75,7 +74,6 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
             System.out.println("file not found");
         }
         coordinates = new Coordinates(model.getter().numberOfRow, model.getter().numberOfCol); // newly added
-        this.updateButton = new Button[coordinates.row()][coordinates.col()]; // newly added
     }
 
     private GridPane design(){
@@ -110,7 +108,6 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                 if (model.getter().getGrid()[row][col].equals("G")){
                     squares.setGraphic(new ImageView(greenFrog));
                 }
-                updateButton[row][col] = squares; // 2D Button[][]
 
                 gridpane.add(squares, col, row);
             }
@@ -126,7 +123,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         stage.setTitle("Hoppers GUI");
         borderPane = new BorderPane();
         HBox hbox = new HBox();
-        label = new Label("Loaded:");
+        label = new Label("Loaded: " + this.filename);
         hbox.setAlignment(Pos.TOP_CENTER);
         hbox.getChildren().add(label);
         borderPane.setTop(hbox);
@@ -171,6 +168,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
                 throw new RuntimeException(e);
             }
         });
+
         resetter.getChildren().add(reset);
 
         HBox hinter = new HBox();
@@ -198,21 +196,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
     @Override
     public void update(HoppersModel hoppersModel, String msg) {
         System.out.println(msg);
-
-//        if (!loaded){
-//            load = new Button("LOAD");
-//            load.setOnAction(event -> {
-//                model.load(this.filename);
-//            });
-//            label.setText(msg);
-//        }
         borderPane.setCenter(design());
-
-//        if (loaded){
-//                coordinates = new Coordinates(model.getter().numberOfRow, model.getter().numberOfCol); // newly added
-//                this.updateButton = new Button[coordinates.row()][coordinates.col()]; // newly added
-////                this.updateButton[model.getter().coordinates.row()][model.getter().coordinates.col()].setText(model.getter().toString());
-//        }
         label.setText(msg);
         this.stage.sizeToScene();  // when a different sized puzzle is loaded
     }

@@ -7,22 +7,19 @@ import puzzles.common.solver.Solver;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Collection;
+import java.util.*;
 
 // TODO: implement your HoppersConfig for the common solver
 
 public class HoppersConfig implements Configuration{
 
-    public static final String GREEN_FROG = "G";
+    public static final String GREEN_FROG = "G"; // make all of these private
 
     public static final String RED_FROG = "R";
 
     public static final String VALID_SPACE = ".";
-    public int numberOfRow;
-    public int numberOfCol;
+    public static int numberOfRow;
+    public static int numberOfCol;
 
     public Coordinates coordinates;
     private String[][] grid;
@@ -46,13 +43,11 @@ public class HoppersConfig implements Configuration{
             }
         }
     }
-    private HoppersConfig(HoppersConfig other, int currentRow, int currentCol, int destinationRow, int destinationCol){
+    public HoppersConfig(HoppersConfig other, int currentRow, int currentCol, int destinationRow, int destinationCol){
         this.coordinates = new Coordinates(currentRow, currentCol);
-        this.numberOfRow = other.numberOfRow; // current assigns to other instance of
-        this.numberOfCol = other.numberOfCol;
         this.grid = new String[numberOfRow][numberOfCol];
-        for (int col = 0; col<numberOfCol; col++) {
-            for (int row = 0; row < numberOfRow; row++) {
+        for (int row = 0; row<numberOfRow; row++) {
+            for (int col = 0; col<numberOfCol; col++) {
                 grid[row][col] = other.grid[row][col]; // assigns new row and colum
             }
         }
@@ -92,61 +87,60 @@ public class HoppersConfig implements Configuration{
             for (int y = 0; y < numberOfCol; y++) {
 
                 if (grid[x][y].equals(GREEN_FROG) || grid[x][y].equals(RED_FROG)){
-                    Solver.totalconfigs++;
 
                     if (x + 4 < numberOfRow && grid[x + 2][y].equals(GREEN_FROG)) { // south
                         if (x + 4 < numberOfRow && grid[x + 4][y].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x+4, y));
-                            Solver.uniqueconfigs++;
+
                         }
 
 
                     } if (y + 4 < numberOfCol && grid[x][y + 2].equals(GREEN_FROG)) { // east
                         if (y + 4 < numberOfCol && grid[x][y + 4].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x, y+4));
-                            Solver.uniqueconfigs++;
+
                         }
 
 
                     } if (x - 4 >= 0 && grid[x - 2][y].equals(GREEN_FROG)) { // north
                         if (x - 4 >= 0 && grid[x - 4][y].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x-4, y));
-                            Solver.uniqueconfigs++;
+
                         }
 
 
                     } if (y - 4 >=0 && grid[x][y - 2].equals(GREEN_FROG)) { // west
                         if (y - 4 >=0 && grid[x][y - 4].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x, y-4));
-                            Solver.uniqueconfigs++;
+
                         }
 
 
                     } if (x + 2 < numberOfRow && y + 2 < numberOfCol && grid[x + 1][y + 1].equals(GREEN_FROG)) { // southeast
                         if (x + 2 < numberOfRow && y + 2 < numberOfCol && grid[x + 2][y + 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x+2, y+2));
-                            Solver.uniqueconfigs++;
+
                         }
 
 
                     } if (x + 2 < numberOfRow && y - 2 >=0 && grid[x + 1][y - 1].equals(GREEN_FROG)) { // southwest
                         if (x + 2 < numberOfRow && y - 2 < numberOfCol && grid[x + 2][y - 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x+2, y-2));
-                            Solver.uniqueconfigs++;
+
                         }
 
 
                     } if (x - 2 >= 0 && y + 2 < numberOfCol && grid[x - 1][y + 1].equals(GREEN_FROG)) { // northeast
                         if (x - 2 < numberOfRow && y + 2 < numberOfCol && grid[x - 2][y + 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x-2, y+2));
-                            Solver.uniqueconfigs++;
+
                         }
 
 
                     } if (x - 2 >= 0 && y - 2 >=0 && grid[x - 1][y - 1].equals(GREEN_FROG)) { // northwest
                         if (x - 2 < numberOfRow && y - 2 < numberOfCol && grid[x - 2][y - 2].equals(VALID_SPACE)){
                             neighbors.add(new HoppersConfig(this, x, y, x-2, y-2));
-                            Solver.uniqueconfigs++;
+
                         }
                     }
                 }
@@ -156,11 +150,35 @@ public class HoppersConfig implements Configuration{
     }
 
     public boolean isValidMove(Coordinates coordinates){
-        if (coordinates.col()<numberOfCol && coordinates.col()>0 && coordinates.row()<numberOfRow && coordinates.row()>0){ // >
+        if (coordinates.col()<numberOfCol && coordinates.row()<numberOfRow ){ // >
             return true;
         }
         return false;
     }
+
+    public boolean isvalidSpace(Coordinates coordinates) {
+     return grid[coordinates.row()][coordinates.col()].equals(VALID_SPACE);
+    }
+
+    public boolean jumpOverGreenFrog(Coordinates start, Coordinates end){
+        return grid[(start.row()+ end.row())/2][(start.col()+end.col())/2].equals(GREEN_FROG);
+    }
+
+
+        @Override
+    public boolean equals(Object other) {
+        boolean result = true;
+        if (other instanceof HoppersConfig h){
+            result = Arrays.deepEquals(grid, h.getGrid());
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(grid);
+    }
+
     @Override
     public String toString(){
         StringBuilder result = new StringBuilder();

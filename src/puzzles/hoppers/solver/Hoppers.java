@@ -20,6 +20,8 @@ public class Hoppers {
     private static String line;
 
 
+
+
     public Hoppers(String filename) throws IOException {
         line = new String(filename);
     }

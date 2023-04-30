@@ -164,6 +164,13 @@ public class HoppersConfig implements Configuration{
         return grid[(start.row()+ end.row())/2][(start.col()+end.col())/2].equals(GREEN_FROG);
     }
 
+    public boolean southeast(Coordinates cod){
+        if (cod.row()<numberOfRow && cod.col()<numberOfCol && grid[cod.row()+1][cod.col()+1].equals(VALID_SPACE)){
+            return true;
+        }
+        return false;
+    }
+
 
         @Override
     public boolean equals(Object other) {

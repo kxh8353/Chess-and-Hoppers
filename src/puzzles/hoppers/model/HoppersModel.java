@@ -71,6 +71,9 @@ public class HoppersModel {
         if (!path.isEmpty()){
             currentConfig = (HoppersConfig) path.get(1);
             alertObservers("Next step!");
+//            if (this.currentConfig.equals(HoppersConfig.RED_FROG)){
+//                alertObservers("already solved!");
+//            }
         }
         else{
             alertObservers("No solution");
@@ -87,16 +90,15 @@ public class HoppersModel {
         try {
             this.filename = filename;
             currentConfig = new HoppersConfig(filename);
-            alertObservers("Loaded" + filename);
+            String[] parts = filename.split("/");
+            String split7 = parts[7];
+            alertObservers("Loaded: " + split7);
+            // split at 76
         }catch(IOException e){
             alertObservers("puzzle not found");
 
         }
     }
-
-//    public boolean isvalid(int r, int c){
-//        return (currentConfig.getGrid()[r][c].equals("."));
-//    }
 
     /**
      * Part 1:

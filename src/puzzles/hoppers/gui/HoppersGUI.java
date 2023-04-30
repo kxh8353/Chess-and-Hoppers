@@ -123,7 +123,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         stage.setTitle("Hoppers GUI");
         borderPane = new BorderPane();
         HBox hbox = new HBox();
-        label = new Label("Loaded: " + this.filename);
+        label = new Label("Loaded: " + "hoppers-4.txt");
         hbox.setAlignment(Pos.TOP_CENTER);
         hbox.getChildren().add(label);
         borderPane.setTop(hbox);

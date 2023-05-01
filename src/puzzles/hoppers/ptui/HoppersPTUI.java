@@ -26,6 +26,14 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
         displayHelp();
     }
 
+    /**
+     * updates game status
+     * @param model the object that wishes to inform this object
+     *                about something that has happened.
+     * @param data optional data the server.model can send to the observer
+     *
+     */
+
     @Override
     public void update(HoppersModel model, String data) {
         // for demonstration purposes
@@ -42,9 +50,9 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
     }
 
     /**
-     *
-     * @param selection
-     * @param secondSelection
+     * checks user input, and follows specified directions
+     * @param selection the coordinates of the selected frog
+     * @param secondSelection the coordinates of the space, regardless of validity
      * @throws IOException
      */
     public void run(HoppersConfig selection, HoppersConfig secondSelection) throws IOException {
@@ -61,7 +69,7 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
                     model.hint();
                 }
                 if (words[0].startsWith( "l" )){
-                    model.load(words[1]);
+                    model.load(words[0]);
                 }
                 if (words[0].startsWith( "s" )){
 
@@ -74,10 +82,6 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
         }
     }
 
-    /**
-     *
-     * @param args
-     */
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Usage: java HoppersPTUI filename");

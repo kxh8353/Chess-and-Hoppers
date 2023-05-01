@@ -105,7 +105,7 @@ public class HoppersModel {
             alertObservers("Loaded: " + split7);
             // split at 76
         }catch(IOException e){
-            alertObservers("puzzle not found");
+            alertObservers("garbage");
 
         }
     }
@@ -148,9 +148,6 @@ public class HoppersModel {
             }
             selectedSpace = null;
         }
-
-
-
     }
 
     /**
@@ -169,6 +166,10 @@ public class HoppersModel {
         alertObservers("Puzzle  Reset!");
     }
 
+    /**
+     * converts results to string
+     * @return a string representation
+     */
     public String toString(){
         return currentConfig.toString();
     }

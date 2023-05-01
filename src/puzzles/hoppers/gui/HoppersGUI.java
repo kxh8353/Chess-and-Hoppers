@@ -203,7 +203,7 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
     }
 
     /**
-     *
+     * updates game status
      * @param hoppersModel the object that wishes to inform this object
      *                about something that has happened.
      * @param msg optional data the server.model can send to the observer
@@ -218,10 +218,6 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         this.stage.sizeToScene();  // when a different sized puzzle is loaded
     }
 
-    /**
-     *
-     * @param args
-     */
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Usage: java HoppersPTUI filename");

@@ -13,10 +13,6 @@ import java.util.Map;
 
 public class Hoppers {
 
-//    public static int row = 0;
-//    public static int col = 0;
-//    private String[][] grid;
-
     private static String line;
 
     /**
@@ -27,7 +23,6 @@ public class Hoppers {
     public Hoppers(String filename) throws IOException {
         line = new String(filename);
     }
-
 
     public static void main(String[] args) throws IOException {
         if (args.length != 1) {

@@ -30,8 +30,6 @@ public class HoppersConfig implements Configuration{
     public String filename;
 
 
-
-
     public HoppersConfig(String filename) throws IOException { // happens when pgrm cannot read a file
         this.filename = filename;
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
@@ -47,6 +45,15 @@ public class HoppersConfig implements Configuration{
             }
         }
     }
+
+    /**
+     * deep copy of class
+     * @param other other instance of HoppersConfig
+     * @param currentRow the current row
+     * @param currentCol the current colum
+     * @param destinationRow the row that is selected
+     * @param destinationCol the colum that is selected
+     */
     public HoppersConfig(HoppersConfig other, int currentRow, int currentCol, int destinationRow, int destinationCol){
         this.coordinates = new Coordinates(currentRow, currentCol);
         this.grid = new String[numberOfRow][numberOfCol];
@@ -62,6 +69,11 @@ public class HoppersConfig implements Configuration{
 
 
     }
+
+    /**
+     * if configuration is a solution
+     * @return true if red frog is left, false otherwise
+     */
 
     @Override
     public boolean isSolution() {
@@ -175,9 +187,9 @@ public class HoppersConfig implements Configuration{
     }
 
     /**
-     *
-     * @param coordinates
-     * @return
+     * if the space is empty or contains "."
+     * @param coordinates coordinates that it checks
+     * @return true if valid, false otherwise
      */
 
     public boolean isvalidSpace(Coordinates coordinates) {
@@ -213,9 +225,9 @@ public class HoppersConfig implements Configuration{
     }
 
     /**
-     *
-     * @param other
-     * @return
+     * if current object equals the other object instanceof in class
+     * @param other the other instanceof
+     * @return true if otherinstanceof, false otherwise
      */
 
         @Override
@@ -228,7 +240,7 @@ public class HoppersConfig implements Configuration{
     }
 
     /**
-     *
+     * generates hashcode for processing configurations
      * @return hashcode
      */
     @Override
@@ -237,7 +249,7 @@ public class HoppersConfig implements Configuration{
     }
 
     /**
-     *
+     * converts output/results to string
      * @return a string representation
      */
     @Override

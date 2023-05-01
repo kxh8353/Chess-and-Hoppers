@@ -100,10 +100,7 @@ public class HoppersModel {
         try {
             this.filename = filename;
             currentConfig = new HoppersConfig(filename);
-            String[] parts = filename.split("/");
-            String split7 = parts[7];
-            alertObservers("Loaded: " + split7);
-            // split at 76
+            alertObservers("Loaded: " + this.filename);
         }catch(IOException e){
             alertObservers("garbage");
 

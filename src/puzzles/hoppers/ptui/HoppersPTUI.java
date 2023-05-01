@@ -69,7 +69,7 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
                     model.hint();
                 }
                 if (words[0].startsWith( "l" )){
-                    model.load(words[0]);
+                    model.load(words[1]);
                 }
                 if (words[0].startsWith( "s" )){
 

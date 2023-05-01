@@ -19,9 +19,11 @@ public class Hoppers {
 
     private static String line;
 
-
-
-
+    /**
+     * initialization
+     * @param filename specified filename
+     * @throws IOException
+     */
     public Hoppers(String filename) throws IOException {
         line = new String(filename);
     }

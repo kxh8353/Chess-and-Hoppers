@@ -41,7 +41,12 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
         System.out.println( "r(eset)             -- reset the current game" );
     }
 
-
+    /**
+     *
+     * @param selection
+     * @param secondSelection
+     * @throws IOException
+     */
     public void run(HoppersConfig selection, HoppersConfig secondSelection) throws IOException {
         Scanner in = new Scanner( System.in );
         for ( ; ; ) {
@@ -65,14 +70,14 @@ public class HoppersPTUI implements Observer<HoppersModel, String> {
                 if (words[0].startsWith( "q" )) {
                     break;
                 }
-//                else {
-//                    displayHelp();
-//                }
             }
         }
     }
 
-
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Usage: java HoppersPTUI filename");

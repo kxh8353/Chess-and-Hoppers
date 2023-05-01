@@ -9,6 +9,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * @author Kevin Huang
+ */
+
 // TODO: implement your HoppersConfig for the common solver
 
 public class HoppersConfig implements Configuration{
@@ -75,10 +79,19 @@ public class HoppersConfig implements Configuration{
         return isRedFrog;
     }
 
+    /**
+     *
+     * @return the grid that the program tests
+     */
 
     public String[][] getGrid(){
         return grid;
     }
+
+    /**
+     * gets neighboring frogs and checks conditions amongst 8 directions
+     * @return the neighbors after every move
+     */
     @Override
     public Collection<Configuration> getNeighbors() {
         Collection<Configuration>neighbors = new LinkedList<>();
@@ -149,6 +162,11 @@ public class HoppersConfig implements Configuration{
         return neighbors;
     }
 
+    /**
+     * checks if the range is within the board
+     * @param coordinates the specified coordinates
+     * @return true if less than the coordinates, false otherwise
+     */
     public boolean isValidMove(Coordinates coordinates){
         if (coordinates.col()<numberOfCol && coordinates.row()<numberOfRow ){ // >
             return true;
@@ -156,21 +174,49 @@ public class HoppersConfig implements Configuration{
         return false;
     }
 
+    /**
+     *
+     * @param coordinates
+     * @return
+     */
+
     public boolean isvalidSpace(Coordinates coordinates) {
      return grid[coordinates.row()][coordinates.col()].equals(VALID_SPACE);
     }
 
+    /**
+     *
+     * @param start
+     * @param end
+     * @return
+     */
     public boolean jumpOverGreenFrog(Coordinates start, Coordinates end){
         return grid[(start.row()+ end.row())/2][(start.col()+end.col())/2].equals(GREEN_FROG);
     }
 
     public boolean southeast(Coordinates cod){
-        if (cod.row()<numberOfRow && cod.col()<numberOfCol && grid[cod.row()+1][cod.col()+1].equals(VALID_SPACE)){
+        if (cod.row()<numberOfRow && cod.col()<numberOfCol && !grid[cod.row()+1][cod.col()+1].equals(GREEN_FROG) && (grid[cod.row()+1][cod.col()+1].equals(VALID_SPACE)
+                || grid[cod.row()+2][cod.col()+2].equals(VALID_SPACE)
+                || grid[cod.row()+3][cod.col()+3].equals(VALID_SPACE)
+                || grid[cod.row()+4][cod.col()+4].equals(VALID_SPACE)
+                || grid[cod.row()+5][cod.col()+5].equals(VALID_SPACE)
+                || grid[cod.row()+6][cod.col()+6].equals(VALID_SPACE)
+                || grid[cod.row()+7][cod.col()+7].equals(VALID_SPACE)
+                || grid[cod.row()+8][cod.col()+8].equals(VALID_SPACE)
+                || grid[cod.row()+9][cod.col()+9].equals(VALID_SPACE)
+                || grid[cod.row()+10][cod.col()+10].equals(VALID_SPACE)
+                || grid[cod.row()+11][cod.col()+11].equals(VALID_SPACE))){
+
             return true;
         }
         return false;
     }
 
+    /**
+     *
+     * @param other
+     * @return
+     */
 
         @Override
     public boolean equals(Object other) {
@@ -181,11 +227,19 @@ public class HoppersConfig implements Configuration{
         return result;
     }
 
+    /**
+     *
+     * @return hashcode
+     */
     @Override
     public int hashCode() {
         return Arrays.deepHashCode(grid);
     }
 
+    /**
+     *
+     * @return a string representation
+     */
     @Override
     public String toString(){
         StringBuilder result = new StringBuilder();

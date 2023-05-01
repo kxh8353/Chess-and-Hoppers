@@ -116,6 +116,15 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         return gridpane;
     }
 
+    /**
+     * starts execution
+     * @param stage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     * @throws Exception
+     */
+
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
@@ -193,6 +202,14 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         stage.show();
     }
 
+    /**
+     *
+     * @param hoppersModel the object that wishes to inform this object
+     *                about something that has happened.
+     * @param msg optional data the server.model can send to the observer
+     *
+     */
+
     @Override
     public void update(HoppersModel hoppersModel, String msg) {
         System.out.println(msg);
@@ -201,6 +218,10 @@ public class HoppersGUI extends Application implements Observer<HoppersModel, St
         this.stage.sizeToScene();  // when a different sized puzzle is loaded
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Usage: java HoppersPTUI filename");

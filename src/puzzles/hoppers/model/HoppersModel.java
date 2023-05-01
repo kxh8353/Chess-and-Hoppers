@@ -53,6 +53,11 @@ public class HoppersModel {
         }
     }
 
+    /**
+     * initialization
+     * @param filename specified filename
+     * @throws IOException
+     */
 
     public HoppersModel(String filename) throws IOException {
         this.filename = filename;
@@ -69,11 +74,16 @@ public class HoppersModel {
 
         ArrayList<Configuration> path = (ArrayList<Configuration>) Solver.getShortestPath(currentConfig);
         if (!path.isEmpty()){
-            currentConfig = (HoppersConfig) path.get(1);
-            alertObservers("Next step!");
-//            if (this.currentConfig.equals(currentConfig.isSolution())){
-//                alertObservers("already solved!");
-//            }
+            if (path.size()>1) {
+                // if path lenght is greater than 1
+                currentConfig = (HoppersConfig) path.get(1);
+                alertObservers("Next step!");
+
+                if ((currentConfig.isSolution())) {
+                    alertObservers("already solved!");
+                }
+            }
+
         }
         else{
             alertObservers("No solution");

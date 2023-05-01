@@ -71,7 +71,7 @@ public class HoppersModel {
         if (!path.isEmpty()){
             currentConfig = (HoppersConfig) path.get(1);
             alertObservers("Next step!");
-//            if (this.currentConfig.equals(HoppersConfig.RED_FROG)){
+//            if (this.currentConfig.equals(currentConfig.isSolution())){
 //                alertObservers("already solved!");
 //            }
         }
@@ -134,7 +134,7 @@ public class HoppersModel {
                 selectedSpace = null;
             }
             else{
-                alertObservers("Invalid Selection: " + secondSelection);
+                alertObservers("cant jump from: " +  selectedSpace + " to " + secondSelection);
             }
             selectedSpace = null;
         }
